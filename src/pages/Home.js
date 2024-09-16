@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/main-icon.svg';
+import backgroundImage from '../assets/images/sqbg.png';
 import { Link } from "react-router-dom";
 const Home = () => {
   return (
@@ -44,6 +45,10 @@ const Home = () => {
 };
 
 const Container = styled.div`
+  background-image: url(${backgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   padding: 20px;
   background-color: #000;
   color: #fff;
