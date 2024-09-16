@@ -55,7 +55,8 @@ const PopupContainer = styled.div`
 
     h2 {
         font-size: 36px;
-        margin-bottom: 20px;
+        margin-top: 20px;
+        margin-bottom: 0;
         background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
         -webkit-background-clip: text;
         color: transparent;

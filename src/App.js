@@ -8,6 +8,8 @@ import Wallet from './pages/Wallet';
 import Settings from './pages/Settings';
 import WalletSettings from './pages/WalletSettings'; // Import the new page
 import CommunityPage from "./pages/ComunityPage";
+import TopTribes from "./pages/TopTribes";
+import Welcome from "./pages/Welcome"
 function App() {
   return (
     <Router>
@@ -19,6 +21,8 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
           <Route path="/community" element={<CommunityPage />} />
+          <Route path="/community/top-tribes" element={<TopTribes />} />
+          <Route path="/welcome" element={<Welcome />} />
           {/* Add the new route */}
         </Routes>
       </div>
