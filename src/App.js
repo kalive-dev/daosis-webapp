@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Friends from './pages/Friends';
 import Wallet from './pages/Wallet';
 import Settings from './pages/Settings';
+import WalletSettings from './pages/WalletSettings'; // Import the new page
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/wallet-settings" element={<WalletSettings />} /> {/* Add the new route */}
         </Routes>
       </div>
       <NavBar />

@@ -154,13 +154,11 @@ const PointsHeader = styled.div`
 
 const PointsSection = styled.div`
   position: fixed; /* Fixes the section on the viewport */
-  top: 500px; /* Adjust this to wherever you want it placed */
+  top: 350px; /* Adjust this to wherever you want it placed */
   left: 0;
   right: 0;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7); /* Make sure the background is visible */
-  backdrop-filter: blur(10px); /* Optional: Adds a blur effect */
-  z-index: 100; /* Ensure it stays on top of other content */
+  background-color: linear-gradient(to top,rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0)); /* Make sure the background is visible */  z-index: 100; /* Ensure it stays on top of other content */
   h1 {
     font-size: 36px;
     margin-bottom: 20px;
