@@ -1,8 +1,13 @@
-// src/pages/Wallet.js
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import backgroundImage from '../assets/images/bg.jpg';
+import backgroundImage from '../assets/images/bg.jpg'; // Assuming the background image exists
+import logo from '../assets/images/main-icon.svg';
+import doubedIcon from "../assets/images/doubled-icon.svg"
+import { TaskItem } from './Home';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const Wallet = () => {
+  const [activeTab, setActiveTab] = useState('balances'); // State to track the active tab
+
   return (
     <Container>
       <Header>
@@ -11,32 +16,95 @@ const Wallet = () => {
       </Header>
 
       <PointsSection>
+        <PointsHeader>
+          <h1>points</h1>
+          <PointsDisplay>
+            <PointsValue>$0</PointsValue>
+          </PointsDisplay>
+        </PointsHeader>
         <TabList>
-          <Tab active>balances</Tab>
-          <Tab>history</Tab>
+          <Tab active={activeTab === 'balances'} onClick={() => setActiveTab('balances')}>
+            balances
+          </Tab>
+          <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+            history
+          </Tab>
+          {/* Animated background */}
+          <AnimatedBackground activeTab={activeTab} />
         </TabList>
 
-        <BalanceContainer>
-          <BalanceItem>
-            <div>
-              <h3>lorem ipsum dolor sit amet</h3>
-              <p>consectetur adipiscing elit</p>
-            </div>
-            <button>btn</button>
-          </BalanceItem>
-          <BalanceItem>
-            <div>
-              <h3>main title</h3>
-              <p>+250$</p>
-            </div>
-            <button>btn</button>
-          </BalanceItem>
-        </BalanceContainer>
+        {activeTab === 'balances' ? (
+          <BalanceContainer>
+            <FixedItem>
+              <div className='left-section'>
+                <img width={"80px"} src={doubedIcon} alt="icon 1" />
+
+                <p>lorem ipsum dolor sit amet consectetur adipiscing elit</p>
+              </div>
+              <button>
+                <ArrowForwardIosIcon fontSize='small' />
+              </button>
+
+            </FixedItem>
+
+            <BalanceItem>
+              <div className="left-section">
+                <img src={logo} alt="task icon" />
+                <div>
+                  <h3>main title</h3>
+                  <p>subtitle</p>
+                </div>
+              </div>
+              <button>btn</button>
+            </BalanceItem>
+          </BalanceContainer>
+        ) : (
+          <HistoryContainer>
+            {/* Replace with your history content */}
+            <p>No history available</p>
+          </HistoryContainer>
+        )}
       </PointsSection>
     </Container>
   );
 };
+const BalanceItem = styled(TaskItem)`
+  
+`
+// Styled components
 
+const FixedItem = styled.div`
+  background: rgba(20, 20, 20, 1);
+  border-radius: 12px;
+  padding: 9px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .left-section {
+    display: flex;
+    align-items: center;
+  }
+  p{
+    color: rgba(133, 133, 133, 1);
+
+  }
+  img{
+    margin-right: 10px;
+  }
+  button {
+    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+    color: #fff;
+    padding: 0px 15px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    
+    /* Icon size correction */
+    svg {
+      font-size: 24px; /* Set the icon size to 24px */
+    }
+  }
+`;
 
 
 const Container = styled.div`
@@ -45,25 +113,32 @@ const Container = styled.div`
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   color: #fff;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-
 const Header = styled.div`
+position: fixed;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-
+  margin: 120px 20px 20px 20px;
+  
   h1 {
-    font-size: 18px;
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
   }
 
   button {
-    background: linear-gradient(to right, #00d2ff, #3a7bd5);
+    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
     color: #fff;
-    padding: 12px 20px;
+    padding: 12px 40px;
     font-size: 14px;
     border: none;
     border-radius: 25px;
@@ -71,57 +146,138 @@ const Header = styled.div`
   }
 `;
 
+const PointsHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const PointsSection = styled.div`
-  background-color: #1c1c1c;
-  border-radius: 12px;
+  position: fixed; /* Fixes the section on the viewport */
+  top: 500px; /* Adjust this to wherever you want it placed */
+  left: 0;
+  right: 0;
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Make sure the background is visible */
+  backdrop-filter: blur(10px); /* Optional: Adds a blur effect */
+  z-index: 100; /* Ensure it stays on top of other content */
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+`;
+
+const PointsDisplay = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  align-items: center;
+`;
+
+const PointsValue = styled.span`
+  background: linear-gradient(90deg, rgba(46, 235, 155, 0.5) 0%, rgba(36, 179, 239, 0.5) 100%);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 const TabList = styled.div`
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-bottom: 20px;
 `;
 
 const Tab = styled.div`
-  padding-bottom: 10px;
-  color: ${(props) => (props.active ? '#00d2ff' : '#888')};
+  padding: 10px 20px;
+  color: ${(props) => (props.active ? '#fff' : '#888')};
   font-size: 16px;
-  border-bottom: ${(props) => (props.active ? '2px solid #00d2ff' : 'none')};
   cursor: pointer;
+  position: relative;
+  z-index: 1; /* Ensure the text is above the animated background */
+  border-radius: 100px;
+  &:hover {
+    color: #fff;
+  }
+`;
+
+// Background that moves under the text
+const AnimatedBackground = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: ${(props) => (props.activeTab === 'balances' ? '0%' : '50%')}; /* Move left or right based on the tab */
+  width: 50%; /* Half width for two tabs */
+  height: 40px;
+  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  border-radius: 100px;
+  transition: left 0.3s ease-in-out; /* Smooth transition */
+  z-index: 0; /* Ensure it stays behind the tabs */
 `;
 
 const BalanceContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: left;
+`;
+// const BalanceItem = styled.div`
+//   display: flex;
+
+//   justify-content: space-between;
+//   padding: 15px 0;
+
+//   div {
+//     display: flex;
+//     flex-direction:row;
+//   }
+//   div.title {
+//     display: flex;
+//     flex-direction:column;
+//   }
+
+//   h3 {
+//   text-align: left;
+//     font-size: 20px;'
+//     font-weight: 400;
+//     margin: 0;
+//   }
+
+//   p {
+//     font-size: 14px;
+//     margin: 0;
+//   }
+
+//   button {
+//     background-color: #00d2ff;
+//     color: #fff;
+//     padding: 10px 20px;
+//     border-radius: 20px;
+//     border: none;
+//     font-size: 14px;
+//     cursor: pointer;
+//   }
+// `;
+
+const ItemIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  background-color: transpatent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 24px;
+    height: auto;
+  }
 `;
 
-const BalanceItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #333;
-
-  h3 {
-    font-size: 16px;
-    margin: 0;
-  }
-
-  p {
-    font-size: 14px;
-    margin: 0;
-  }
-
-  button {
-    background-color: #00d2ff;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-  }
+const HistoryContainer = styled.div`
+  /* Styles for the history content */
 `;
 
 export default Wallet;

@@ -167,7 +167,7 @@ const TaskItem = styled.div`
     background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
     font-weight: 400;
     color: #fff;
-    padding: 10px;
+    padding: 8px 16px;
     border-radius: 20px;
     border: none;
     font-size: 14px;
@@ -175,5 +175,5 @@ const TaskItem = styled.div`
   }
 `;
 
-export { TitleGradient, Title };
+export { TitleGradient, Title, TaskItem };
 export default Home;

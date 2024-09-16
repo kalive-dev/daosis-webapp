@@ -89,6 +89,7 @@ const NavContainer = styled.div`
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   padding: 0;
+  margin-bottom: 20px;
 `;
 
 const NavItem = styled.div`
