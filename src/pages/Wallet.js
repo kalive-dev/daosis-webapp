@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import backgroundImage from '../assets/images/bg.jpg'; // Assuming the background image exists
 import logo from '../assets/images/main-icon.svg';
 import doubedIcon from "../assets/images/doubled-icon.svg"
 import { TaskItem } from './Home';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import IconOverlay from "../assets/images/icon-cash.svg"
+import Popup, { Button } from '../components/Popup';
+import CloseButton from "../assets/images/closebutton.svg"
 const Wallet = () => {
   const [activeTab, setActiveTab] = useState('balances'); // State to track the active tab
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
+  useEffect(() => {
+    document.body.style.overflow = isPopupVisible ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isPopupVisible]);
+
+  const handleButtonClick = () => {
+    setPopupVisible(true);
+  };
+
+  const handleClosePopup = () => {
+    setPopupVisible(false);
+  };
+
+  const handleSave = () => {
+    console.log("Save button clicked");
+    setPopupVisible(false);
+  };
   return (
     <Container>
       <Header>
         <h1>lorem ipsum dolor sit amet</h1>
-        <button>btn</button>
+        <button onClick={handleButtonClick}>btn</button>
       </Header>
 
       <PointsSection>
@@ -55,7 +78,7 @@ const Wallet = () => {
                   <p>subtitle</p>
                 </div>
               </div>
-              <button>btn</button>
+              <button onClick={handleButtonClick}>btn</button>
             </BalanceItem>
           </BalanceContainer>
         ) : (
@@ -65,6 +88,33 @@ const Wallet = () => {
           </HistoryContainer>
         )}
       </PointsSection>
+      <Popup
+        isVisible={isPopupVisible}
+        title="Enter your wallet address"
+        icon={<img src={IconOverlay} />}
+        onClose={handleClosePopup}
+        onSave={handleSave}
+        content={
+          <div>
+            <input
+              type="text"
+              placeholder="Wallet Address"
+              style={{
+                border: "2px solid rgba(220, 220, 220, 1)",
+                borderRadius: "100px",
+                padding: "10px",
+                fontSize: "16px",
+                width: "100%",
+                marginTop: "10px",
+                color: "rgba(255, 255, 255, 0.8)",
+                backgroundColor: "transparent",
+                outline: "none"
+              }}
+            />
+            <Button>main btn</Button>
+          </div>
+        }
+      />
     </Container>
   );
 };
@@ -80,6 +130,7 @@ const FixedItem = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   .left-section {
     display: flex;
     align-items: center;
@@ -92,16 +143,17 @@ const FixedItem = styled.div`
     margin-right: 10px;
   }
   button {
+    max-height:60px;
     background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
     color: #fff;
-    padding: 0px 15px;
+    padding: 10px 15px;
     border: none;
     border-radius: 100px;
     cursor: pointer;
     
     /* Icon size correction */
     svg {
-      font-size: 24px; /* Set the icon size to 24px */
+      font-size: 16px; /* Set the icon size to 24px */
     }
   }
 `;

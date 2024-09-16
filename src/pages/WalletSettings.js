@@ -5,7 +5,8 @@ import chevronDown from "../assets/images/chevron-down.svg";
 import Qr from "../assets/images/qr.svg";
 import IconOverlay from "../assets/images/icon-cash.svg"
 import { Link } from 'react-router-dom';
-
+import CloseButton from "../assets/images/closebutton.svg"
+import Popup, { Button } from '../components/Popup';
 const WalletSettings = () => {
     const [isPopupVisible, setPopupVisible] = useState(false);
 
@@ -24,7 +25,10 @@ const WalletSettings = () => {
         setPopupVisible(false);
     };
 
-
+    const handleSave = () => {
+        console.log("Save button clicked");
+        setPopupVisible(false);
+    };
     return (
         <Container>
             <div>
@@ -63,101 +67,41 @@ const WalletSettings = () => {
                     </div>
                 </Step>
             </div>
-            <br style={{ marginTop: "20px" }} />
             <ChangeAddress onClick={handleButtonClick} style={{ marginBottom: "40px" }}>
                 change address
             </ChangeAddress>
-
-            {isPopupVisible && (
-                <PopupOverlay>
-                    <br style={{ marginBottom: "300px" }} />
-                    <PopupContainer>
-                        <CloseButton onClick={handleClosePopup}>×</CloseButton>
-                        <img src={IconOverlay} width={"120px"} />
-                        <h2>enter your wallet address</h2>
-                        <Input placeholder="input" />
-                        <Button onClick={handleClosePopup}>save</Button>
-                    </PopupContainer>
-
-                </PopupOverlay>
-            )}
+            <br />
+            <Popup
+                isVisible={isPopupVisible}
+                title="Enter your wallet address"
+                icon={<img src={IconOverlay} />}
+                onClose={handleClosePopup}
+                onSave={handleSave}
+                content={
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Wallet Address"
+                            style={{
+                                border: "2px solid rgba(220, 220, 220, 1)",
+                                borderRadius: "100px",
+                                padding: "10px",
+                                fontSize: "16px",
+                                width: "100%",
+                                marginTop: "10px",
+                                color: "rgba(255, 255, 255, 0.8)",
+                                backgroundColor: "transparent",
+                                outline: "none"
+                            }}
+                        />
+                        <Button>save</Button>
+                    </div>
+                }
+            />
         </Container>
     );
 };
-const Input = styled.input`
-    border: 2px solid rgba(220, 220, 220, 1);
-    border-radius: 100px;
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    margin-top: 10px;
-    color: rgba(255, 255, 255, 0.8);
-    outline: none;
-    background-color: transparent;
-    &::placeholder {
-        color: rgba(220, 220, 220, 1);
-        font-weight: 400;
-    }
-`;
 // Styled Components
-const PopupOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1001;
-    backdrop-filter: blur(5px);
-`;
-
-const PopupContainer = styled.div`
-    background: rgba(20, 20, 20, 1);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h2 {
-    font-size: 36px;
-    margin-bottom: 20px;
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
-    -webkit-background-clip: text;
-    color: transparent;
-    }
-`;
-
-const Button = styled.button`
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
-    color: #fff;
-    width: 350px;
-    padding: 12px 16px;
-    font-size: 20px;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    margin-top: 20px;
-`;
-
-const CloseButton = styled.button`
-    position: relative;
-    left: 170px;
-    bottom: 40px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-`;
 const ChangeAddress = styled.button`
   background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
   width: 343px;
@@ -272,5 +216,4 @@ const Step = styled.div`
     padding-bottom: 40px;
   }
 `;
-
 export default WalletSettings;

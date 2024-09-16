@@ -1,14 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from "react-dom";
+import { TitleGradient, Title } from './Home';
 import styled from 'styled-components';
-import { TitleGradient, Title } from './Home'; // Import TitleGradient from Home
+import Popup, { Button } from "../components/Popup";
+import QRCode from "react-qr-code";
 import StrangeThing from '../assets/images/strangething.svg';
+
 const Friends = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [preloadedQRCode, setPreloadedQRCode] = useState(null);
+  const qrcodevalue = "https://t.me/";
+
+  useEffect(() => {
+    const preloadQRCode = () => {
+      const canvas = document.createElement('canvas');
+      const qrCodeElement = document.createElement('div');
+      qrCodeElement.style.width = '256px';
+      qrCodeElement.style.height = '256px';
+
+      document.body.appendChild(qrCodeElement);
+
+      const qrCode = <QRCode value={qrcodevalue} size={256} />;
+      ReactDOM.render(qrCode, qrCodeElement);
+
+      // Wait for QR code to render
+      setTimeout(() => {
+        const qrCodeImage = qrCodeElement.querySelector('svg');
+        if (qrCodeImage) {
+          const svg = qrCodeImage.outerHTML;
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          const img = new Image();
+          img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+            setPreloadedQRCode(canvas.toDataURL());
+            document.body.removeChild(qrCodeElement);
+          };
+          img.src = 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+      }, 100);
+    };
+
+    preloadQRCode();
+
+    return () => {
+      setPreloadedQRCode(null);
+    };
+  }, [qrcodevalue]);
+
+  useEffect(() => {
+    document.body.style.overflow = isPopupVisible ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isPopupVisible]);
+
+  const handleButtonClick = () => {
+    setPopupVisible(true);
+  };
+
+  const handleClosePopup = () => {
+    setPopupVisible(false);
+  };
+
+  const handleSave = () => {
+    console.log("Save button clicked");
+    setPopupVisible(false);
+  };
+
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Text copied to clipboard:', text);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+    }
+  };
+
+  const handleButtonClickQR = () => {
+    copyToClipboard(qrcodevalue);
+  };
+
   return (
     <Container>
       <ImageWrapper>
         <img src={StrangeThing} alt="icon" />
       </ImageWrapper>
-      <TitleGradient>Main title</TitleGradient> {/* Use TitleGradient directly */}
+      <TitleGradient>Main title</TitleGradient>
       <HowItWorks>
         <HowItWorksTitle>how it works</HowItWorksTitle>
         <Step>
@@ -33,27 +113,73 @@ const Friends = () => {
           </div>
         </Step>
       </HowItWorks>
-      <InviteButton>invite a friend</InviteButton>
+      <InviteButton onClick={handleButtonClick}>invite a friend</InviteButton>
+      <Popup
+        isVisible={isPopupVisible}
+        title="invite a friend"
+        icon={
+          <QRCodeContainer>
+            {preloadedQRCode ? (
+              <img src={preloadedQRCode} alt="QR Code" style={{ width: '100%' }} />
+            ) : (
+              <QRCode value={qrcodevalue} size={256} />
+            )}
+          </QRCodeContainer>
+        }
+        onClose={handleClosePopup}
+        onSave={handleSave}
+        content={
+          <div>
+            <Button>send</Button>
+            <ButtonOutlined onClick={handleButtonClickQR}>copy link</ButtonOutlined>
+          </div>
+        }
+      />
     </Container>
   );
 };
+
+const ButtonOutlined = styled(Button)`
+  background: 
+      linear-gradient(#000, #000) padding-box,
+      linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%) border-box;
+  color: #ffffff;
+  border: 3px solid transparent;
+  border-radius: 40px;
+  display: inline-block;
+  font-size: 20px;
+`;
+
+const QRCodeContainer = styled.div`
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  max-width: 100%;
+  height: auto;
+`;
+
 const HowItWorksTitle = styled(Title)`
   margin-bottom: 20px;
-`
+`;
+
 const Container = styled.div`
   padding: 20px;
   background-color: #000;
   color: #fff;
   min-height: 100vh;
-  text-align: center; /* Center align all content */
+  text-align: center;
 `;
 
 const ImageWrapper = styled.div`
   margin-bottom: 20px;
   margin-top: 95px;
   img {
-    width: 110px; /* Adjust size as needed */
+    width: 110px;
     height: auto;
+    z-index: 0;
   }
 `;
 
@@ -70,28 +196,24 @@ const Dot = styled.div`
   margin-right: 15px;
   position: relative;
 
-  /* Add the line */
   &::after {
     content: "";
     position: absolute;
-    top: 100%; /* Start the line from the bottom of the dot */
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px; /* Thickness of the line */
-    height: 90px; /* Height of the line */
+    width: 2px;
+    height: 90px;
     background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
-
-
   }
 `;
 
 const Step = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px; 
-  position: relative; /* To position the line correctly */
+  margin-bottom: 20px;
+  position: relative;
 
-  /* Target the last Step to hide the line */
   &:last-child ${Dot}::after {
     display: none;
   }
@@ -107,16 +229,12 @@ const Step = styled.div`
     font-size: 14px;
     margin: 0;
     color: rgba(90, 90, 90, 1);
-
   }
 
   &:not(:last-child) {
-    /* Add extra space for the line to be visible */
     padding-bottom: 40px;
   }
 `;
-
-
 
 const InviteButton = styled.button`
   background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);

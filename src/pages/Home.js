@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/main-icon.svg';
-
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <Container>
@@ -13,7 +13,9 @@ const Home = () => {
             <Subtitle>subtitle</Subtitle>
           </div>
         </div>
-        <button>open</button>
+        <Link to="/community">
+          <button>open</button>
+        </Link>
       </CommunityBanner>
 
       <TitleGradient>Daily tasks</TitleGradient>

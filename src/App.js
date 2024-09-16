@@ -7,7 +7,7 @@ import Friends from './pages/Friends';
 import Wallet from './pages/Wallet';
 import Settings from './pages/Settings';
 import WalletSettings from './pages/WalletSettings'; // Import the new page
-
+import CommunityPage from "./pages/ComunityPage";
 function App() {
   return (
     <Router>
@@ -17,7 +17,9 @@ function App() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/wallet-settings" element={<WalletSettings />} /> {/* Add the new route */}
+          <Route path="/wallet-settings" element={<WalletSettings />} />
+          <Route path="/community" element={<CommunityPage />} />
+          {/* Add the new route */}
         </Routes>
       </div>
       <NavBar />

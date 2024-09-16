@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring'; // Import react-spring
 import ArrowRightGradient from "../assets/images/RightArrow.svg";
 import backgroundImage from '../assets/images/sqbg.png'; // Assuming the background image exists
-
 const Settings = () => {
   const [openSection, setOpenSection] = useState(null); // State to track which section is open
 
