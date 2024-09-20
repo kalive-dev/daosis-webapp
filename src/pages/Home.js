@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/main-icon.svg';
 import backgroundImage from '../assets/images/sqbg.png';
 import { Link } from "react-router-dom";
 const Home = () => {
+  const [activeTab, setActiveTab] = useState('new'); // State to track the active tab
   return (
     <Container>
       <CommunityBanner>
@@ -21,24 +22,59 @@ const Home = () => {
 
       <TitleGradient>Daily tasks</TitleGradient>
       <TabList>
-        <Tab active>new</Tab>
-        <Tab>completed</Tab>
-        <Tab>unfulfilled</Tab>
+        <Tab active={activeTab === 'new'} onClick={() => setActiveTab('new')}>new</Tab>
+        <Tab active={activeTab === 'completed'} onClick={() => setActiveTab('completed')}>completed</Tab>
+        <Tab active={activeTab === 'unfulfilled'} onClick={() => setActiveTab('unfulfilled')}>unfulfilled</Tab>
       </TabList>
-
       <TaskList>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <TaskItem key={index}>
-            <div className="left-section">
-              <img src={logo} alt="task icon" />
-              <div>
-                <h3>main title</h3>
-                <p>+250$</p>
-              </div>
-            </div>
-            <button>btn</button>
-          </TaskItem>
-        ))}
+        {
+          activeTab === 'new' ? (
+            <TaskList>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>main title</h3>
+                      <p>+250$</p>
+                    </div>
+                  </div>
+                  <button>btn</button>
+                </TaskItem>
+              ))}
+            </TaskList>
+          ) : activeTab === 'completed' ? (
+            <TaskList>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>main title</h3>
+                      <p>+250$</p>
+                    </div>
+                  </div>
+                  <button>btn</button>
+                </TaskItem>
+              ))}
+            </TaskList>
+          ) : (
+            <TaskList>
+              {Array.from({ length: 2 }).map((_, index) => (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>main title</h3>
+                      <p>+250$</p>
+                    </div>
+                  </div>
+                  <button>btn</button>
+                </TaskItem>
+              ))}
+            </TaskList>
+          )
+        }
       </TaskList>
     </Container>
   );
