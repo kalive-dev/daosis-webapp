@@ -11,8 +11,8 @@ const Home = () => {
         <div className="left-section">
           <img src={require('../assets/images/white-icon.png')} alt="community icon" />
           <div>
-            <Title>community title</Title>
-            <Subtitle>subtitle</Subtitle>
+            <Title>Daosis</Title>
+            <Subtitle>Early Community</Subtitle>
           </div>
         </div>
         <Link to="/community">

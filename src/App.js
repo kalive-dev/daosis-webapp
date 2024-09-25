@@ -1,5 +1,5 @@
 import "./App.css";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
@@ -11,6 +11,9 @@ import CommunityPage from "./pages/ComunityPage";
 import TopTribes from "./pages/TopTribes";
 import Welcome from "./pages/Welcome"
 function App() {
+  useEffect(() => {
+  }
+  )
   return (
     <Router>
       <div style={{ paddingBottom: '56px', backgroundColor: '#000', color: '#fff' }}>

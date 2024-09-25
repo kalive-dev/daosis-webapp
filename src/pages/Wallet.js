@@ -37,13 +37,13 @@ const Wallet = () => {
     <Container>
       <Header>
         <h1>Congratulations!</h1>
-        <button onClick={handleButtonClick}>btn</button>
+        <button onClick={handleButtonClick}>Connect Wallet</button>
       </Header>
 
       <MainContent>
         <PointsSection>
           <PointsHeader>
-            <h1>points</h1>
+            <h1>Points</h1>
             <PointsDisplay>
               <PointsValue>$0</PointsValue>
             </PointsDisplay>
@@ -113,7 +113,7 @@ const Wallet = () => {
                 outline: "none"
               }}
             />
-            <Button>main btn</Button>
+            <Button>Connect Wallet</Button>
           </div>
         }
       />
