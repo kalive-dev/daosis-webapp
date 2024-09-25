@@ -88,28 +88,28 @@ const Friends = () => {
       <ImageWrapper>
         <img src={StrangeThing} alt="icon" />
       </ImageWrapper>
-      <TitleGradient>Main title</TitleGradient>
+      <TitleGradient>Invite your friends!</TitleGradient>
       <HowItWorks>
-        <HowItWorksTitle>how it works</HowItWorksTitle>
+        <HowItWorksTitle>How it works</HowItWorksTitle>
         <Step>
           <Dot />
           <div>
-            <h3>lorem ipsum dolor</h3>
-            <p>subtitle</p>
+            <h3>Invite your telegram friends</h3>
+            {/* <p>subtitle</p> */}
           </div>
         </Step>
         <Step>
           <Dot />
           <div>
-            <h3>lorem ipsum dolor</h3>
-            <p>subtitle</p>
+            <h3>Get them using the Daosis bot</h3>
+            {/* <p></p> */}
           </div>
         </Step>
         <Step>
           <Dot />
           <div>
-            <h3>lorem ipsum dolor</h3>
-            <p>subtitle</p>
+            <h3>Earn rewards!</h3>
+            {/* <p>subtitle</p> */}
           </div>
         </Step>
       </HowItWorks>
@@ -203,7 +203,7 @@ const Dot = styled.div`
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: 90px;
+    height:60px;
     background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
   }
 `;
@@ -211,7 +211,7 @@ const Dot = styled.div`
 const Step = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
   position: relative;
 
   &:last-child ${Dot}::after {

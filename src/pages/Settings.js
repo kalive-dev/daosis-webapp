@@ -15,16 +15,6 @@ const Settings = () => {
     }
   };
 
-  useEffect(() => {
-    // Prevent scrolling
-    document.body.style.overflow = 'hidden';
-
-    // Clean up the effect when the component unmounts
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
   return (
     <Container>
       <Section>
@@ -33,33 +23,36 @@ const Settings = () => {
           <IconButton isOpen={openSection === 'faq'} />
         </SectionHeader>
         <AnimatedContent isOpen={openSection === 'faq'}>
-          <h1>Lorem ipsum dolor sit amet?</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <h1>Lorem ipsum dolor sit amet?</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <h1>Lorem ipsum dolor sit amet?</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <h1>1. What is the Daosis Telegram Bot?</h1>
+          <p>The Daosis Telegram Bot is designed to foster community engagement and track user activity. It allows Daosis to monitor which users are most engaged and reward them accordingly.</p>
+          <h1>2. How does the bot work?</h1>
+          <p>Users can interact with the bot and do small tasks. The users can paste their Oasis Sapphire public wallet address to the form in the bot (MetaMask or any self custodial wallet) wallet address. The bot will then associate the wallet address with the user's Telegram name, storing this information in a secure database.</p>
+          <h1>3. What will my wallet information be used for?</h1>
+          <p>Your wallet address will be used to track your engagement within the Daosis community. Active participants will have the opportunity to earn rewards based on their contributions and engagement level.</p>
+          <h1>4. Is my data safe?</h1>
+          <p>Yes, Daosis takes data privacy seriously. We only collect your Telegram name and wallet address, and this data is securely stored and used exclusively for engagement tracking and reward distribution. (See privacy policy for more information)</p>
+          <h1>5. How can I start using the bot?</h1>
+          <p>Simply join our Telegram group and interact with the bot by following the instructions(MetaMask). You'll then be part of our engagement tracking system!</p>
+          <h1>6. What rewards can I earn?</h1>
+          <p>Engaged users may earn various rewards, including tokens and exclusive opportunities within the Daosis ecosystem. Stay active and watch for announcements</p>
         </AnimatedContent>
       </Section>
 
       <Section>
-        <SectionHeader onClick={() => toggleSection('privacy')}>
-          <h3>Privacy Policy</h3>
-          <IconButton isOpen={openSection === 'privacy'} />
+        <SectionHeader>
+          <a href='https://daosis.io/assets/Privacy%20Policy.pdf'>
+            <h3>Privacy Policy</h3></a>
         </SectionHeader>
-        <AnimatedContent isOpen={openSection === 'privacy'}>
-          <p>Here you can put the privacy policy content...</p>
-        </AnimatedContent>
       </Section>
 
-      <Section>
+      {/* <Section>
         <SectionHeader>
           <Link to="/wallet-settings" style={{ textDecoration: 'none', color: 'inherit', display: "flex", alignItems: "center", justifyContent: "space-between", width: '100%' }}>
             <h3>Wallet Settings</h3>
             <img src={ArrowRightGradient} alt="Go to Wallet Settings" style={{ width: '12px', height: '12px' }} />
           </Link>
         </SectionHeader>
-      </Section>
+      </Section> */}
     </Container>
   );
 };
@@ -71,22 +64,18 @@ const Container = styled.div`
   padding: 20px;
   background-color: #000;
   color: #fff;
-  min-height: 100vh;
-  background-color: #000;
   background-image: url(${backgroundImage});
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  height: 100vh; /* Ensure the container fills the viewport height */
-  overflow: hidden; /* Prevent internal scrolling */
+  min-height: 100vh; /* Allow the content to grow beyond the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
 `;
 
 const Section = styled.div`
   margin-bottom: 10px;
   background: rgba(20, 20, 20, 1);
   border-radius: 12px;
-  /* Ensure that content within sections does not cause overflow */
-  overflow: hidden;
 `;
 
 const SectionHeader = styled.div`
@@ -119,19 +108,15 @@ const IconButton = styled.button`
   background-repeat: no-repeat;
   background-position: center;
 
-  // Rotate the icon 90 degrees when the section is open
   transform: ${({ isOpen }) => (isOpen ? 'rotate(90deg)' : 'rotate(0deg)')};
   transition: transform 0.3s ease;
 `;
-
-// Updated AnimatedContent component
 
 const AnimatedContent = ({ isOpen, children }) => {
   const contentRef = useRef(); // Ref to measure content height
   const [contentHeight, setContentHeight] = useState(0); // State to track dynamic height
 
   useEffect(() => {
-    // Update content height when component mounts or isOpen changes
     if (contentRef.current) {
       setContentHeight(contentRef.current.scrollHeight);
     }
@@ -144,7 +129,7 @@ const AnimatedContent = ({ isOpen, children }) => {
   });
 
   return (
-    <AnimatedDiv style={animation} ref={contentRef}> {/* Assign ref here */}
+    <AnimatedDiv style={animation} ref={contentRef}>
       {children}
     </AnimatedDiv>
   );
@@ -154,7 +139,8 @@ const AnimatedDiv = styled(animated.div)`
   will-change: height, opacity;
   overflow: hidden;
   padding: ${({ style }) => (style.height > 0 ? '10px' : '0px 10px')};
-  transition: padding 0.3s ease; // Smooth padding transition for better UX
+  transition: padding 0.3s ease;
+  
   h1 {
     font-size: 16px;
     margin-bottom: 10px;
@@ -163,9 +149,11 @@ const AnimatedDiv = styled(animated.div)`
     color: transparent;
     font-weight: 700;
   }
+
   p {
     font-size: 14px;
     font-weight: 400;
+    margin-bottom: 10px;
   }
 `;
 
