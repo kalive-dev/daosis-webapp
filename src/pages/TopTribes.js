@@ -1,19 +1,17 @@
 // src/components/TopTribesList.js
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import GoBackIcon from '../assets/images/chevron-down.svg'
 import TribeIcon from '../assets/images/main-icon.svg'
-const tribes = [
-    { id: 1, title: "cumunity title", subtitle: "subtitle" },
-    { id: 2, title: "cumunity title", subtitle: "subtitle" },
-    { id: 3, title: "cumunity title", subtitle: "subtitle" },
-    { id: 4, title: "cumunity title", subtitle: "subtitle" },
-    { id: 5, title: "cumunity title", subtitle: "subtitle" },
-    { id: 6, title: "cumunity title", subtitle: "subtitle" }
-];
+import { TribeContext } from "../Context/TribeContext";
+import { useNavigate } from "react-router-dom";
+
 
 const TopTribes = () => {
+  const navigate = useNavigate();
+  const { topTribes  } = useContext(TribeContext);
+  
     return (
         <Container>
             <Header>
@@ -23,17 +21,17 @@ const TopTribes = () => {
                 <Title>top tribes</Title>
             </Header>
             <TribeList>
-                {tribes.map((tribe) => (
+                {topTribes.map((tribe) => (
                     <TribeItem key={tribe.id}>
                         <TribeImage>
                             {/* Icon or image placeholder */}
-                            <img src={TribeIcon} alt="tribe icon" />
+                            <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="tribe icon" />
                         </TribeImage>
                         <TribeDetails>
-                            <TribeTitle>{tribe.title}</TribeTitle>
-                            <TribeSubtitle>{tribe.subtitle}</TribeSubtitle>
+                            <TribeTitle>{tribe.name}</TribeTitle>
+                            <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
                         </TribeDetails>
-                        <Rank>{tribe.id}</Rank>
+                        <Rank>{tribe.rank}</Rank>
                     </TribeItem>
                 ))}
             </TribeList>

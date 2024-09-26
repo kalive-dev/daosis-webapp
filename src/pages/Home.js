@@ -7,6 +7,7 @@ import "../Styles/mainStyles.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
 import { RewardsContext } from '../Context/RewardsContext';
+import { TribeContext } from "../Context/TribeContext";
 import {TasksContext} from "../Context/TasksContext";
 import { API_BASE_URL } from "../Helpers/Api";
 import axios from "axios";
@@ -16,6 +17,7 @@ const Home = ({telegramId}) => {
   const { user, fetchUser, updateUserBalance } = useContext(UserContext);
   const { rewards, fetchUserRewards } = useContext(RewardsContext);
   const { tasks, fetchTasks } = useContext(TasksContext);
+  const { tribe  } = useContext(TribeContext);
   const [isLoading, setIsLoading] = useState(false);
   const userFetchedRef = useRef(false);
   const rewardsFetchedRef = useRef(false);
@@ -100,13 +102,13 @@ const Home = ({telegramId}) => {
   return (
     <Container>
       <CommunityBanner>
-        <div className="left-section">
-          <img src={require('../assets/images/white-icon.png')} alt="community icon" />
-          <div>
-            <Title>Daosis</Title>
-            <Subtitle>Early Community</Subtitle>
-          </div>
-        </div>
+      <div className="left-section">
+  <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="community icon" />
+  <div>
+    <Title>{tribe ? tribe.name : "Daosis" }</Title>
+    <Subtitle>{tribe ? tribe.tribe_collected : "Daosis Community"}</Subtitle>
+  </div>
+</div>
         <Link to="/community">
           <button>open</button>
         </Link>
