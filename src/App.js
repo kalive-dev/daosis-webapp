@@ -1,6 +1,6 @@
 import "./App.css";
-import React, { useEffect,useContext,useState } from 'react';
-import { BrowserRouter as Router, Routes, Route,Navigate,useLocation} from 'react-router-dom';
+import React, { useEffect, useContext, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Friends from './pages/Friends';
@@ -17,6 +17,8 @@ import { TasksProvider } from "./Context/TasksContext";
 import { TribeProvider } from "./Context/TribeContext";
 import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
+import StartTribe from './pages/StartTribe'
+import SearchTribe from './pages/SearchTribe'
 function App() {
   const [userData, setUserData] = useState(null);
   const [refererId, setRefererId] = useState("");
@@ -63,7 +65,7 @@ function App() {
       }
     };
     initializeTelegramWebApp();
-  },[]);
+  }, []);
 
   if (!userData) {
     return <div>Loading...</div>;
@@ -73,15 +75,17 @@ function App() {
     <UserProvider userData={userData}>
       <div style={{ paddingBottom: '56px', backgroundColor: '#000', color: '#fff' }}>
         <Routes>
-          <Route path="/preload" element={<PreLoad  telegramId={userData.id}/>} />
+          <Route path="/preload" element={<PreLoad telegramId={userData.id} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/friends" element={<Friends />} />
-          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/wallet" element={<Wallet />} />scrolling
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
           <Route path="/community" element={<CommunityPage />} />
           <Route path="/community/top-tribes" element={<TopTribes />} />
           <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
+          <Route path="/start-tribe" element={<StartTribe />} />
+          <Route path="/search" element={<SearchTribe />} />
           <Route path='*' element={<Navigate to='/preload' />} />
           {/* Add the new route */}
         </Routes>
@@ -95,6 +99,7 @@ function AppWrapper() {
   const manifestUrl = new URL('/tonconnect/tonconnect-manifest.json', window.location.origin);
 
   return (
+
         <TribeProvider>
           <TasksProvider>
             <RewardsProvider>
@@ -104,6 +109,7 @@ function AppWrapper() {
             </RewardsProvider>
           </TasksProvider>
         </TribeProvider>
+
   );
 }
 

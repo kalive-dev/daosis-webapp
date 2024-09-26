@@ -1,54 +1,53 @@
 // src/components/TopTribesList.js
-import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+
 import GoBackIcon from '../assets/images/chevron-down.svg'
 import TribeIcon from '../assets/images/main-icon.svg'
-import { TribeContext } from "../Context/TribeContext";
-import { useNavigate } from "react-router-dom";
 import { Input } from '../components/Popup';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import SearchIcon from '@mui/icons-material/Search';
+import SearchBar from '../components/SearchBar'
+const tribes = [
+    { id: 1, title: "community title", subtitle: "subtitle" },
+    { id: 2, title: "community title", subtitle: "subtitle" },
+    { id: 3, title: "community title", subtitle: "subtitle" },
+    { id: 4, title: "community title", subtitle: "subtitle" },
+    { id: 5, title: "community title", subtitle: "subtitle" },
+    { id: 6, title: "community title", subtitle: "subtitle" }
+];
 
-const TopTribes = () => {
-  const navigate = useNavigate();
-  const { topTribes  } = useContext(TribeContext);
-
+const SearchTribe = () => {
     return (
         <Container>
-            <Header>
-                <Link to="/community">
-                    <img src={GoBackIcon} />
-                </Link>
-                <Title>top tribes</Title>
+            <Header style={{ flexDirection: "column", alignItems: "start" }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <Link to="/community">
+                        <img src={GoBackIcon} />
+                    </Link>
+                    <Title>top tribes</Title>
+                </div>
+                <SearchBar style={{}}></SearchBar>
             </Header>
             <TribeList>
-                {topTribes.map((tribe) => (
+                {tribes.map((tribe) => (
                     <TribeItem key={tribe.id}>
                         <TribeImage>
-                            {/* Icon or image placeholder */}
-                            <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="tribe icon" />
+                            <img src={TribeIcon} alt="tribe icon" />
                         </TribeImage>
                         <TribeDetails>
-                            <TribeTitle>{tribe.name}</TribeTitle>
-                            <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+                            <TribeTitle>{tribe.title}</TribeTitle>
+                            <TribeSubtitle>{tribe.subtitle}</TribeSubtitle>
                         </TribeDetails>
-                        <Rank>{tribe.rank}</Rank>
+                        <Rank>{tribe.id}</Rank>
                     </TribeItem>
                 ))}
             </TribeList>
         </Container>
     );
-  }
+};
 
 
-const Search = styled(Input)`
-padding: 10px 20px;
-font-size: 24px;
-  &::placeholder{
-    font-size: 24px;
-    font-weight:500;
-  }
-
-`
 const Container = styled.div`
     margin-top:50px;
   padding: 20px;
@@ -135,5 +134,6 @@ const Rank = styled.div`
   font-weight: bold;
   font-size:21px;
 `;
+
 export { TribeList, TribeItem, TribeImage, TribeIcon, TribeDetails, TribeTitle, TribeSubtitle, Rank }
-export default TopTribes;
+export default SearchTribe

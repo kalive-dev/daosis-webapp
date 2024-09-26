@@ -105,5 +105,5 @@ const CloseButton = styled.button`
     z-index: 1200; /* Ensure it's above other content */
 `;
 
-export { Button };
+export { Button, Input };
 export default Popup;
