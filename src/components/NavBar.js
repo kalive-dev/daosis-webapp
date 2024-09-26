@@ -27,10 +27,10 @@ const NavBar = () => {
         <NavContainer>
             <NavItem
                 ref={(el) => navItemsRef.current[0] = el}
-                data-route="/"
-                active={activeRoute === '/'}
+                data-route="/home"
+                active={activeRoute === '/home'}
             >
-                <Link to="/">
+                <Link to="/home">
                     <img src={HomeOutline} alt="Home" width={24} height={24} />
                     <span>home</span>
                 </Link>

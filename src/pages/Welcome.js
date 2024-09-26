@@ -1,21 +1,122 @@
-import React from 'react';
+import React, {useContext, useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import backgroundImage from '../assets/images/bg.jpg';
 // Import your image (replace with the correct path)
 import futuristicImage from '../assets/images/strangething.svg';
+import { UserContext } from '../Context/UserContext';
+import { TasksContext } from '../Context/TasksContext';
+import {API_BASE_URL} from "../Helpers/Api"; // Import TasksContext
+import axios from "axios"; // Импорт axios
+import { Spinner } from "../icons/Spinner";
+import { useNavigate } from "react-router-dom";
+const FirstScreen = ({userData, refererId}) => {
+  const { user, setUser } = useContext(UserContext);
+  const { tasks, setTasks } = useContext(TasksContext);
+  const [isLoading, setIsLoading] = useState(false); // Для спіннера
+  const navigate = useNavigate(); 
+  const createUser = async () => {
+    setIsLoading(true); // Початок завантаження
+    try {
+        const randomUsername = userData.username;
+        const randomFirstName = userData.first_name;
+        const randomLastName = userData.last_name;
+        const randomTelegramId = userData.id;
+        const isPremium = userData.is_premium;
+        const reference = `874423521djiawiid`;
 
-const FirstScreen = () => {
+        // Fetch the registration date
+
+            const userData2 = {
+                username: randomUsername,
+                first_name: randomFirstName,
+                last_name: randomLastName,
+                telegram_id: randomTelegramId,
+                is_premium: isPremium,
+                reference: reference,
+                balance: 0,
+                wallet: 0,
+            };
+            setUser(userData2);
+
+            const initialTasks = [
+              {"title": "Join Daosis community chat",
+                "url": "https://t.me/DaosisCommunity",
+                "reward": "+3000",
+                "completed": false},
+                 {"title": "Join Daosis announcement channel",
+                "url": "https://t.me/DaosisAnnouncements",
+                "reward": "+3000",
+                "completed": false}
+            ];
+
+            // Update tasks context
+            setTasks(initialTasks);
+
+            const response = await axios.post(
+                `${API_BASE_URL}/users/`,
+                userData2,
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (response.status === 201) {
+                console.log("User created successfully:", response.data);
+                console.log(refererId);
+                console.log(userData.telegram_id);
+                if (refererId) {
+                    await addFriend(userData.telegram_id, refererId);
+                }
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+                navigate("/home")
+            } else {
+                console.error("Failed to create user:", response.data);
+            }
+    } catch (error) {
+        console.error("Error creating user:", error);
+    } finally {
+        setIsLoading(false); // Закінчення завантаження
+    }
+};
+
+const addFriend = async (userid, refererId) => {
+  try {
+      console.log(`Adding friend with telegramId: ${userid}, refererId: ${refererId}`);
+      const response = await axios.post(`${API_BASE_URL}/add_friend/`, {
+          telegram_id: userid,
+          second_telegram_id: refererId,
+      }, {
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
+
+      if (response.status === 200) {
+          console.log("Friend added successfully:", response.data.message);
+      } else {
+          console.error("Failed to add friend:", response.data.message);
+      }
+  } catch (error) {
+      console.error("Error adding friend:", error);
+  }
+};
+
     return (
-        <Container>
-            <ImageContainer>
-                <img src={futuristicImage} />
-            </ImageContainer>
-            <Headline>Experience the innovations of tomorrow, today!</Headline>
-            <Link to="/">
-                <StartButton>Start</StartButton>
-            </Link>
-        </Container>
+      <Container>
+      <ImageContainer>
+          <img src={futuristicImage} />
+      </ImageContainer>
+      <Headline>Experience the innovations of tomorrow, today!</Headline>
+
+      {isLoading ? (
+          <Spinner />  // Показати спіннер під час завантаження
+      ) : (
+          <StartButton onClick={createUser}>Start</StartButton> // Виклик createUser при натисканні
+      )}
+  </Container>
     );
 };
 
