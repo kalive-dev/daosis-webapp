@@ -15,12 +15,12 @@ const SearchTribe = () => {
         <Container>
             <Header style={{ flexDirection: "column", alignItems: "start" }}>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Link to="/community">
+                    <Link to="/start-tribe">
                         <img src={GoBackIcon} />
                     </Link>
                     <Title>top tribes</Title>
                 </div>
-                <SearchBar style={{}}></SearchBar>
+                <SearchBar></SearchBar>
             </Header>
             <TribeList>
             {topTribes.slice(0, 250).map((tribe) => (

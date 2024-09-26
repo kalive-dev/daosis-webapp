@@ -81,8 +81,12 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />scrolling
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/top-tribes" element={<TopTribes />} />
+          <Route path="/community" element={<CommunityPage />} >
+            <Route path="top-tribes" element={<TopTribes />} />
+          </Route>
+          <Route path="/start-tribe" element={<StartTribe />}>
+            <Route path="search" element={<TopTribes />} />
+          </Route>
           <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
           <Route path="/start-tribe" element={<StartTribe />} />
           <Route path="/search" element={<SearchTribe />} />
@@ -100,15 +104,15 @@ function AppWrapper() {
 
   return (
 
-        <TribeProvider>
-          <TasksProvider>
-            <RewardsProvider>
-              <Router>
-                <App />
-                </Router>
-            </RewardsProvider>
-          </TasksProvider>
-        </TribeProvider>
+    <TribeProvider>
+      <TasksProvider>
+        <RewardsProvider>
+          <Router>
+            <App />
+          </Router>
+        </RewardsProvider>
+      </TasksProvider>
+    </TribeProvider>
 
   );
 }

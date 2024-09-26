@@ -12,7 +12,7 @@ const SearchContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: ${({ isActive }) => (isActive ? '200px' : '0px')};
+  width: ${({ isActive }) => (isActive ? '80vw' : '0px')};
   opacity: ${({ isActive }) => (isActive ? 1 : 0)};
   transition: width 0.5s ease-in-out, opacity 0.3s ease;
   padding: ${({ isActive }) => (isActive ? '10px' : '0')};
