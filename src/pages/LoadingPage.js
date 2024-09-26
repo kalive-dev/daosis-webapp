@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserContext } from "../Context/UserContext";
 import { RewardsContext } from "../Context/RewardsContext";
 import { TasksContext } from "../Context/TasksContext";
-import { LeaderboardContext } from "../Context/LeaderboardContext";
+import { TribeContext } from "../Context/TribeContext";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../Helpers/Api";
 import { Link } from 'react-router-dom';
@@ -13,12 +13,12 @@ import futuristicImage from '../assets/images/strangething.svg';
 import { Spinner } from "../icons/Spinner";
 
 
-const PreLoad = ({ telegramId }) => {    
+const PreLoad = ({ telegramId }) => {
   const navigate = useNavigate();
   const { user, setUser, updateUserBalance } = useContext(UserContext);
   const { setRewards } = useContext(RewardsContext);
   const { setTasks } = useContext(TasksContext);
-  const { setUserStats, setLeaderboard, setCount,setFriendsStats } = useContext(LeaderboardContext);
+  const { fetchTribe,fetchTopTribes  } = useContext(TribeContext);
   const [rewardData, setRewardData] = useState(null);
   const [showRewardPage, setShowRewardPage] = useState(false);
 
@@ -50,9 +50,11 @@ const PreLoad = ({ telegramId }) => {
       loadData();
   }, [telegramId, navigate]);
   const fetchAllData = async (telegramId) => {
+    fetchTopTribes();
       await fetchUser(telegramId);
       await fetchUserRewards(telegramId);
       await fetchTasks(telegramId);
+      
   };
 
   const fetchUser = async (telegramId) => {
@@ -62,7 +64,11 @@ const PreLoad = ({ telegramId }) => {
           });
 
           if (response.status === 200 && response.data.status === "success") {
-              setUser(response.data.user);
+            const userData = response.data.user;
+            setUser(userData);
+              if (userData.tribe) {
+                await fetchTribe(userData.tribe); 
+              }
           } else {
               console.error("Error fetching user:", response.data.message);
           }

@@ -14,7 +14,7 @@ import axios from "axios";
 import { UserProvider } from "./Context/UserContext";
 import { RewardsProvider } from "./Context/RewardsContext";
 import { TasksProvider } from "./Context/TasksContext";
-import { LeaderboardProvider } from "./Context/LeaderboardContext";
+import { TribeProvider } from "./Context/TribeContext";
 import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
 import StartTribe from './pages/StartTribe'
@@ -99,15 +99,17 @@ function AppWrapper() {
   const manifestUrl = new URL('/tonconnect/tonconnect-manifest.json', window.location.origin);
 
   return (
-    <LeaderboardProvider>
-      <TasksProvider>
-        <RewardsProvider>
-          <Router>
-            <App />
-          </Router>
-        </RewardsProvider>
-      </TasksProvider>
-    </LeaderboardProvider>
+
+        <TribeProvider>
+          <TasksProvider>
+            <RewardsProvider>
+              <Router>
+                <App />
+                </Router>
+            </RewardsProvider>
+          </TasksProvider>
+        </TribeProvider>
+
   );
 }
 

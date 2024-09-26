@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import ReactDOM from 'react-dom';
@@ -12,13 +12,18 @@ import backgroundImage from '../assets/images/sqbg.png';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowRightGradient from '../assets/images/arrowright.svg';
 import ArrowRightGray from "../assets/images/arrowrightgray.svg"
+import { TribeContext } from "../Context/TribeContext";
+import { UserContext } from '../Context/UserContext';
+import { useNavigate } from "react-router-dom";
 import Popup, { Input } from "../components/Popup"
 
 const CommunityPage = () => {
+    const navigate = useNavigate();
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [preloadedQRCode, setPreloadedQRCode] = useState(null);
     const qrcodevalue = "https://t.me/";
-
+    const { tribe, leaveMyTribe } = useContext(TribeContext);
+    const { user } = useContext(UserContext);
     useEffect(() => {
         const preloadQRCode = () => {
             const canvas = document.createElement('canvas');
@@ -90,25 +95,29 @@ const CommunityPage = () => {
     const handleButtonClickQR = () => {
         copyToClipboard(qrcodevalue);
     };
+    const handleButtonClickLeave = () => {
+        leaveMyTribe(user.telegram_id,user.tribe)
+        navigate("/home");
+    };
     return (
         <CommunityContainer>
             <Header>
                 <img src={Icon} width="190px" />
-                <CommunityTitle>Community title</CommunityTitle>
+                <CommunityTitle>{tribe ? tribe.name : "Daosis" }</CommunityTitle>
                 <div className='rings'>
                     <img src={RingL} />
-                    <span style={{ margin: "10px", color: 'white' }}>1</span>
+                    <span style={{ margin: "10px", color: 'white' }}>{tribe ? tribe.tribe_collected : "Daosis" }</span>
                     <ArrowForwardIosIcon fontSize='10px' style={{ color: 'white' }} />
                     <img src={RingR} />
                 </div>
                 <div className='buttons-section'>
                     <HeaderButton onClick={handleButtonClick}>invite</HeaderButton>
-                    <Link to="/"><HeaderButton>leave</HeaderButton></Link>
+                    <HeaderButton onClick={handleButtonClickLeave}>leave</HeaderButton>
 
                 </div>
             </Header>
             <div className='header-tribe'>
-                <h2>your tribe</h2>
+                <h2>Your tribe</h2>
                 <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className='see-all'>
                         <h3>see all</h3>
@@ -120,23 +129,23 @@ const CommunityPage = () => {
                 <TribeList>
                     <TribeListItem>
                         <span className='text-gray'>perks</span>
-                        <span className='text-white'>txt</span>
+                        <span className='text-white'>x10 to Farming</span>
                     </TribeListItem>
                     <TribeListItem>
                         <span className='text-gray'>pribe rank</span>
-                        <span className='text-white'>txt</span>
+                        <span className='text-white'>{tribe.position}</span>
                     </TribeListItem>
                     <TribeListItem>
                         <span className='text-gray'>your personal rank</span>
-                        <span className='text-white'>txt</span>
+                        <span className='text-white'>{user.tribe_role}</span>
                     </TribeListItem>
                     <TribeListItem>
                         <span className='text-gray'>tribe collected</span>
-                        <span className='text-white'>txt</span>
+                        <span className='text-white'>{tribe.tribe_collected}</span>
                     </TribeListItem>
                     <TribeListItem>
                         <span className='text-gray'>members</span>
-                        <span className='text-white'>txt</span>
+                        <span className='text-white'>{tribe.members}</span>
                     </TribeListItem>
                 </TribeList>
             </TribeSection>
