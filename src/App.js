@@ -18,6 +18,7 @@ import { LeaderboardProvider } from "./Context/LeaderboardContext";
 import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
 import StartTribe from './pages/StartTribe'
+import SearchTribe from './pages/SearchTribe'
 function App() {
   const [userData, setUserData] = useState(null);
   const [refererId, setRefererId] = useState("");
@@ -84,6 +85,7 @@ function App() {
           <Route path="/community/top-tribes" element={<TopTribes />} />
           <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
           <Route path="/start-tribe" element={<StartTribe />} />
+          <Route path="/search" element={<SearchTribe />} />
           <Route path='*' element={<Navigate to='/preload' />} />
           {/* Add the new route */}
         </Routes>

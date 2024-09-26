@@ -11,9 +11,6 @@ const StartTribe = () => {
         { id: 1, title: "cumunity title", subtitle: "subtitle" },
         { id: 2, title: "cumunity title", subtitle: "subtitle" },
         { id: 3, title: "cumunity title", subtitle: "subtitle" },
-        { id: 4, title: "cumunity title", subtitle: "subtitle" },
-        { id: 5, title: "cumunity title", subtitle: "subtitle" },
-        { id: 6, title: "cumunity title", subtitle: "subtitle" }
     ];
 
     return (
