@@ -78,7 +78,7 @@ function App() {
           <Route path="/preload" element={<PreLoad telegramId={userData.id} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/friends" element={<Friends />} />
-          <Route path="/wallet" element={<Wallet />} />scrolling
+          <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
           <Route path="/community" element={<CommunityPage />} >
