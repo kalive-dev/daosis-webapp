@@ -27,7 +27,7 @@ const SearchTribe = () => {
                     </Link>
                     <Title>top tribes</Title>
                 </div>
-                <SearchBar style={{}}></SearchBar>
+                <SearchBar></SearchBar>
             </Header>
             <TribeList>
                 {tribes.map((tribe) => (
