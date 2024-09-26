@@ -22,7 +22,7 @@ const SearchTribe = () => {
         <Container>
             <Header style={{ flexDirection: "column", alignItems: "start" }}>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Link to="/community">
+                    <Link to="/start-tribe">
                         <img src={GoBackIcon} />
                     </Link>
                     <Title>top tribes</Title>
