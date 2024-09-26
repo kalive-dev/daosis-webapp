@@ -1,23 +1,16 @@
 // src/components/TopTribesList.js
 import { Link } from 'react-router-dom';
-
 import GoBackIcon from '../assets/images/chevron-down.svg'
 import TribeIcon from '../assets/images/main-icon.svg'
 import { Input } from '../components/Popup';
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBar from '../components/SearchBar'
-const tribes = [
-    { id: 1, title: "community title", subtitle: "subtitle" },
-    { id: 2, title: "community title", subtitle: "subtitle" },
-    { id: 3, title: "community title", subtitle: "subtitle" },
-    { id: 4, title: "community title", subtitle: "subtitle" },
-    { id: 5, title: "community title", subtitle: "subtitle" },
-    { id: 6, title: "community title", subtitle: "subtitle" }
-];
+import { TribeContext } from "../Context/TribeContext";
 
 const SearchTribe = () => {
+  const { topTribes  } = useContext(TribeContext);
     return (
         <Container>
             <Header style={{ flexDirection: "column", alignItems: "start" }}>
@@ -30,18 +23,21 @@ const SearchTribe = () => {
                 <SearchBar style={{}}></SearchBar>
             </Header>
             <TribeList>
-                {tribes.map((tribe) => (
-                    <TribeItem key={tribe.id}>
-                        <TribeImage>
-                            <img src={TribeIcon} alt="tribe icon" />
-                        </TribeImage>
-                        <TribeDetails>
-                            <TribeTitle>{tribe.title}</TribeTitle>
-                            <TribeSubtitle>{tribe.subtitle}</TribeSubtitle>
-                        </TribeDetails>
-                        <Rank>{tribe.id}</Rank>
-                    </TribeItem>
-                ))}
+            {topTribes.slice(0, 250).map((tribe) => (
+  <TribeItem key={tribe.tribe_id}> {/* tribe.tribe_id використовується як ключ */}
+    <TribeImage>
+      <img
+        src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+        alt="tribe icon"
+      />
+    </TribeImage>
+    <TribeDetails>
+      <TribeTitle>{tribe.name}</TribeTitle>
+      <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+    </TribeDetails>
+    <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
+  </TribeItem>
+))}
             </TribeList>
         </Container>
     );

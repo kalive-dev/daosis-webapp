@@ -1,17 +1,13 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-
+import { TribeContext } from "../Context/TribeContext";
 import { TribeList, TribeItem, TribeImage, TribeIcon, TribeDetails, TribeTitle, TribeSubtitle, Rank } from './TopTribes'
 
 import ArrowRightGradient from '../assets/images/arrowright.svg';
 import StrangeIcon from '../assets/images/strangething.svg'
 const StartTribe = () => {
-    const tribes = [
-        { id: 1, title: "cumunity title", subtitle: "subtitle" },
-        { id: 2, title: "cumunity title", subtitle: "subtitle" },
-        { id: 3, title: "cumunity title", subtitle: "subtitle" },
-    ];
+    const { topTribes  } = useContext(TribeContext);
 
     return (
         <Container>
@@ -26,7 +22,7 @@ const StartTribe = () => {
                     ⚡️Farm 10% faster as a new tribe member or owner.
                 </Subtitle>
                 <ButtonContainer>
-                    <Button primary>Join tribe</Button>
+                    <Link to="/search"><Button primary>Join tribe</Button></Link>
                     <Button>Create new</Button>
                 </ButtonContainer>
             </TitleContainer>
@@ -41,19 +37,23 @@ const StartTribe = () => {
             </div>
             <TribeContainer style={{ marginBottom: "30px" }}>
                 <TribeList>
-                    {tribes.map((tribe) => (
-                        <TribeItem key={tribe.id}>
-                            <TribeImage>
-                                {/* Icon or image placeholder */}
-                                <img src={TribeIcon} alt="tribe icon" />
-                            </TribeImage>
-                            <TribeDetails>
-                                <TribeTitle>{tribe.title}</TribeTitle>
-                                <TribeSubtitle>{tribe.subtitle}</TribeSubtitle>
-                            </TribeDetails>
-                            <Rank>{tribe.id}</Rank>
-                        </TribeItem>
-                    ))}
+                {topTribes.slice(0, 3).map((tribe) => (
+  <TribeItem key={tribe.tribe_id}> {/* tribe.tribe_id використовується як ключ */}
+    <TribeImage>
+      {/* Відображення зображення або плейсхолдера */}
+      <img
+        src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+        alt="tribe icon"
+      />
+    </TribeImage>
+    <TribeDetails>
+      <TribeTitle>{tribe.name}</TribeTitle>
+      <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+    </TribeDetails>
+    <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
+  </TribeItem>
+))}
+
                 </TribeList>
             </TribeContainer>
         </Container>
