@@ -12,7 +12,7 @@ import backgroundImage from '../assets/images/sqbg.png';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowRightGradient from '../assets/images/arrowright.svg';
 import ArrowRightGray from "../assets/images/arrowrightgray.svg"
-import Popup from "../components/Popup"
+import Popup, { Input } from "../components/Popup"
 
 const CommunityPage = () => {
     const [isPopupVisible, setPopupVisible] = useState(false);
@@ -142,10 +142,16 @@ const CommunityPage = () => {
             </TribeSection>
             <div className='header-tribe'>
                 <h2>leaderboard</h2>
-                <div className='see-all-gray'>
+                <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className='see-all'>
+                        <h3>see all</h3>
+                        <img src={ArrowRightGradient} />
+                    </div>
+                </Link>
+                {/* <div className='see-all-gray'>
                     <h3>see all</h3>
                     <img src={ArrowRightGray} />
-                </div>
+                </div> */}
             </div>
             <LeaderboardSection>
                 <div>
@@ -180,7 +186,6 @@ const CommunityPage = () => {
         </CommunityContainer>
     );
 };
-
 const ButtonOutlined = styled(Button)`
   background: 
       linear-gradient(#000, #000) padding-box,
