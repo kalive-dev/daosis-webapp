@@ -16,14 +16,18 @@ import { TribeContext } from "../Context/TribeContext";
 import { UserContext } from '../Context/UserContext';
 import { useNavigate } from "react-router-dom";
 import Popup, { Input } from "../components/Popup"
-
+import { useLocation } from "react-router-dom";
+import { Spinner } from "../icons/Spinner";
 const CommunityPage = () => {
     const navigate = useNavigate();
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [preloadedQRCode, setPreloadedQRCode] = useState(null);
     const qrcodevalue = "https://t.me/";
-    const { tribe, leaveMyTribe } = useContext(TribeContext);
-    const { user } = useContext(UserContext);
+    const { tribe, leaveMyTribe ,tribeLoading,joinTribe} = useContext(TribeContext);
+    const { user, joinToTribe,resetUserTribe } = useContext(UserContext);
+    const location = useLocation();
+    const { tribeId } = location.state || {};
+
     useEffect(() => {
         const preloadQRCode = () => {
             const canvas = document.createElement('canvas');
@@ -95,104 +99,141 @@ const CommunityPage = () => {
     const handleButtonClickQR = () => {
         copyToClipboard(qrcodevalue);
     };
+
+    const handleButtonClickJoin = () => {
+        joinTribe(user.telegram_id,tribe.tribe_id)
+        joinToTribe(tribe.tribe_id,"member")
+    };
+
     const handleButtonClickLeave = () => {
         leaveMyTribe(user.telegram_id,user.tribe)
+        resetUserTribe()
         navigate("/home");
     };
     return (
-        <CommunityContainer>
-            <Header>
-                <img src={Icon} width="190px" />
-                <CommunityTitle>{tribe ? tribe.name : "Daosis" }</CommunityTitle>
-                <div className='rings'>
-                    <img src={RingL} />
-                    <span style={{ margin: "10px", color: 'white' }}>{tribe ? tribe.tribe_collected : "Daosis" }</span>
-                    <ArrowForwardIosIcon fontSize='10px' style={{ color: 'white' }} />
-                    <img src={RingR} />
-                </div>
-                <div className='buttons-section'>
-                    <HeaderButton onClick={handleButtonClick}>invite</HeaderButton>
-                    <HeaderButton onClick={handleButtonClickLeave}>leave</HeaderButton>
+        <div>
+        {tribeLoading ? (
+            <div style={{
+              width: "100%",
+              padding: "100px 0",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <Spinner width={48} height={48} />
+          </div>
+        ) : (
+                <>
+                    <CommunityContainer>
+                        <Header>
+                            <img src={Icon} width="190px" />
+                            <CommunityTitle>{tribe ? tribe.name : "Daosis" }</CommunityTitle>
+                            <div className='rings'>
+                                <img src={RingL} />
+                                <span style={{ margin: "10px", color: 'white' }}>{tribe ? tribe.tribe_collected : "Daosis" }</span>
+                                <ArrowForwardIosIcon fontSize='10px' style={{ color: 'white' }} />
+                                <img src={RingR} />
+                            </div>
+                            <div className='buttons-section'>
+                                {user?.tribe==tribe.tribe_id ?
+                                <HeaderButton onClick={handleButtonClickLeave}>leave</HeaderButton>
+                                    :
+                                <HeaderButton onClick={handleButtonClickJoin}>Join</HeaderButton>
+                                }
+                                 <HeaderButton onClick={handleButtonClick}>invite</HeaderButton>
 
-                </div>
-            </Header>
-            <div className='header-tribe'>
-                <h2>Your tribe</h2>
-                <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <div className='see-all'>
-                        <h3>see all</h3>
-                        <img src={ArrowRightGradient} />
-                    </div>
-                </Link>
-            </div>
-            <TribeSection>
-                <TribeList>
-                    <TribeListItem>
-                        <span className='text-gray'>perks</span>
-                        <span className='text-white'>x10 to Farming</span>
-                    </TribeListItem>
-                    <TribeListItem>
-                        <span className='text-gray'>pribe rank</span>
-                        <span className='text-white'>{tribe.position}</span>
-                    </TribeListItem>
-                    <TribeListItem>
-                        <span className='text-gray'>your personal rank</span>
-                        <span className='text-white'>{user.tribe_role}</span>
-                    </TribeListItem>
-                    <TribeListItem>
-                        <span className='text-gray'>tribe collected</span>
-                        <span className='text-white'>{tribe.tribe_collected}</span>
-                    </TribeListItem>
-                    <TribeListItem>
-                        <span className='text-gray'>members</span>
-                        <span className='text-white'>{tribe.members}</span>
-                    </TribeListItem>
-                </TribeList>
-            </TribeSection>
-            <div className='header-tribe'>
-                <h2>leaderboard</h2>
-                <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <div className='see-all'>
-                        <h3>see all</h3>
-                        <img src={ArrowRightGradient} />
-                    </div>
-                </Link>
-                {/* <div className='see-all-gray'>
-                    <h3>see all</h3>
-                    <img src={ArrowRightGray} />
-                </div> */}
-            </div>
-            <LeaderboardSection>
-                <div>
-                    <p>
-                        Lorem ipsum dolor sit amet
-                    </p>
-                    <Link to="/"><LeaderboardButton>btn</LeaderboardButton></Link>
+                            </div>
+                        </Header>
+                        <div className='header-tribe'>
+                            <h2>Your tribe</h2>
+                            <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <div className='see-all'>
+                                    <h3>see all</h3>
+                                    <img src={ArrowRightGradient} />
+                                </div>
+                            </Link>
+                        </div>
+                        <TribeSection>
+                            <TribeList>
+                                
+                                {user?.tribe==tribe.tribe_id &&  
+                                <TribeListItem>
+                                    <span className='text-gray'>perks</span>
+                                    <span className='text-white'>x10 to Farming</span>
+                                </TribeListItem>
+                                }
+                               
+                                {user?.tribe==tribe.tribe_id &&  
+                               <TribeListItem>
+                               <span className='text-gray'>tribe rank</span>
+                               <span className='text-white'>{tribe?.rank}</span>
+                                </TribeListItem>
+                                }
+                                {user?.tribe==tribe.tribe_id &&  
+                                <TribeListItem>
+                                    <span className='text-gray'>your personal rank</span>
+                                    <span className='text-white'>{user?.tribe_role}</span>
+                                </TribeListItem>
+                                }
+                                 <TribeListItem>
+                                    <span className='text-gray'>tribe collected</span>
+                                    <span className='text-white'>{tribe?.tribe_collected}</span>
+                                </TribeListItem>
+                                <TribeListItem>
+                                    <span className='text-gray'>members</span>
+                                    <span className='text-white'>{tribe?.members}</span>
+                                </TribeListItem>
+                            </TribeList>
+                        </TribeSection>
+                        <div className='header-tribe'>
+                            <h2>leaderboard</h2>
+                            <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <div className='see-all'>
+                                    <h3>see all</h3>
+                                    <img src={ArrowRightGradient} />
+                                </div>
+                            </Link>
+                            {/* <div className='see-all-gray'>
+                                <h3>see all</h3>
+                                <img src={ArrowRightGray} />
+                            </div> */}
+                        </div>
+                        <LeaderboardSection>
+                            <div>
+                                <p>
+                                    Lorem ipsum dolor sit amet
+                                </p>
+                                <Link to="/"><LeaderboardButton>btn</LeaderboardButton></Link>
 
-                </div>
-            </LeaderboardSection>
-            <Popup
-                isVisible={isPopupVisible}
-                title="invite to tribe"
-                icon={
-                    <QRCodeContainer>
-                        {preloadedQRCode ? (
-                            <img src={preloadedQRCode} alt="QR Code" style={{ width: '100%' }} />
-                        ) : (
-                            <QRCode value={qrcodevalue} size={256} />
-                        )}
-                    </QRCodeContainer>
-                }
-                onClose={handleClosePopup}
-                onSave={handleSave}
-                content={
-                    <div>
-                        <Button>send</Button>
-                        <ButtonOutlined onClick={handleButtonClickQR}>copy link</ButtonOutlined>
-                    </div>
-                }
-            />
-        </CommunityContainer>
+                            </div>
+                        </LeaderboardSection>
+                        <Popup
+                            isVisible={isPopupVisible}
+                            title="invite to tribe"
+                            icon={
+                                <QRCodeContainer>
+                                    {preloadedQRCode ? (
+                                        <img src={preloadedQRCode} alt="QR Code" style={{ width: '100%' }} />
+                                    ) : (
+                                        <QRCode value={qrcodevalue} size={256} />
+                                    )}
+                                </QRCodeContainer>
+                            }
+                            onClose={handleClosePopup}
+                            onSave={handleSave}
+                            content={
+                                <div>
+                                    <Button>send</Button>
+                                    <ButtonOutlined onClick={handleButtonClickQR}>copy link</ButtonOutlined>
+                                </div>
+                            }
+                        />
+                        </CommunityContainer>
+                </>
+        )}
+        </div>
     );
 };
 const ButtonOutlined = styled(Button)`

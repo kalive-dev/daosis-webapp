@@ -10,8 +10,12 @@ import { Input } from '../components/Popup';
 
 const TopTribes = () => {
   const navigate = useNavigate();
-  const { topTribes  } = useContext(TribeContext);
-
+  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const handleTribeClick = async (tribe2) => {
+    await searchTribe(tribe2.name);
+    navigate("/community");
+  };
+  
     return (
         <Container>
             <Header>
@@ -21,19 +25,21 @@ const TopTribes = () => {
                 <Title>top tribes</Title>
             </Header>
             <TribeList>
-                {topTribes.map((tribe) => (
-                    <TribeItem key={tribe.id}>
-                        <TribeImage>
-                            {/* Icon or image placeholder */}
-                            <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="tribe icon" />
-                        </TribeImage>
-                        <TribeDetails>
-                            <TribeTitle>{tribe.name}</TribeTitle>
-                            <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
-                        </TribeDetails>
-                        <Rank>{tribe.rank}</Rank>
-                    </TribeItem>
-                ))}
+            {topTribes.map((tribe) => (
+          <TribeItem key={tribe.id} onClick={() => handleTribeClick(tribe)}>
+            <TribeImage>
+              <img
+                src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+                alt="tribe icon"
+              />
+            </TribeImage>
+            <TribeDetails>
+              <TribeTitle>{tribe.name}</TribeTitle>
+              <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+            </TribeDetails>
+            <Rank>{tribe.rank}</Rank>
+          </TribeItem>
+        ))}
             </TribeList>
         </Container>
     );

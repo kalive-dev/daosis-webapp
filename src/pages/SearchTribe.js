@@ -8,9 +8,15 @@ import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBar from '../components/SearchBar'
 import { TribeContext } from "../Context/TribeContext";
-
+import { useNavigate } from "react-router-dom";
 const SearchTribe = () => {
-  const { topTribes  } = useContext(TribeContext);
+  const navigate = useNavigate();
+  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const handleTribeClick = async (tribe2) => {
+    await searchTribe(tribe2.name);
+    navigate("/community");
+  };
+  
     return (
         <Container>
             <Header style={{ flexDirection: "column", alignItems: "start" }}>
@@ -24,7 +30,7 @@ const SearchTribe = () => {
             </Header>
             <TribeList>
             {topTribes.slice(0, 250).map((tribe) => (
-  <TribeItem key={tribe.tribe_id}> {/* tribe.tribe_id використовується як ключ */}
+  <TribeItem key={tribe.tribe_id}  onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
     <TribeImage>
       <img
         src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
