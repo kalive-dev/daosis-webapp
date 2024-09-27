@@ -5,7 +5,6 @@ import { TasksContext } from "../Context/TasksContext";
 import { LeaderboardContext } from "../Context/TribeContext";
 
 export const API_BASE_URL = "https://daosis-p-back.xyz/api";
-export const API_BASE_URL2 = "https://daosis-p-back.xyz/api";
 export const telegram_id = "874423521";
 
 export const updateUserBalance = async (telegramId, newBalance) => {

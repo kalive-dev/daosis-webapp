@@ -144,7 +144,7 @@ const CommunityPage = () => {
                 <img src={RingR} />
               </div>
               <div className="buttons-section">
-                {user?.tribe == tribe.tribe_id ? (
+                {user?.tribe == tribe?.tribe_id ? (
                   <HeaderButton onClick={handleButtonClickLeave}>
                     leave
                   </HeaderButton>
@@ -170,20 +170,20 @@ const CommunityPage = () => {
             </div>
             <TribeSection>
               <TribeList>
-                {user?.tribe == tribe.tribe_id && (
+                {user?.tribe == tribe?.tribe_id && (
                   <TribeListItem>
                     <span className="text-gray">perks</span>
                     <span className="text-white">x10 to Farming</span>
                   </TribeListItem>
                 )}
 
-                {user?.tribe == tribe.tribe_id && (
+                {user?.tribe == tribe?.tribe_id && (
                   <TribeListItem>
                     <span className="text-gray">tribe rank</span>
                     <span className="text-white">{tribe?.rank}</span>
                   </TribeListItem>
                 )}
-                {user?.tribe == tribe.tribe_id && (
+                {user?.tribe == tribe?.tribe_id && (
                   <TribeListItem>
                     <span className="text-gray">your personal rank</span>
                     <span className="text-white">{user?.tribe_role}</span>

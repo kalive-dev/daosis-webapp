@@ -35,13 +35,15 @@ const StartTribe = () => {
           <Link to="/search">
             <Button primary>Join tribe</Button>
           </Link>
-          <Button>Create new</Button>
+          <Link to="/create">
+            <Button>Create new</Button>
+          </Link>
         </ButtonContainer>
       </TitleContainer>
       <div className="header-tribe">
         <h2>Top tribes</h2>
         <Link
-          to="/community/top-tribes"
+          to="/top-tribes"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div className="see-all">
@@ -82,6 +84,7 @@ const StartTribe = () => {
     </Container>
   );
 };
+
 const TribeContainer = styled.div`
   width: 90vw;
   display: flex;

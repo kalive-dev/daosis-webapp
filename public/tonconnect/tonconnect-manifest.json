@@ -1,0 +1,9 @@
+{
+  "name": "Daosis",
+  "description": "Daosis is a platform for...",
+  "url": "https://daosis-webapp.vercel.app",
+  "iconUrl": "https://daosis-webapp.vercel.app/resources_directory/strangething.png",
+  "bridgeUrl": "https://bridge.tonconnect.org/bridge",
+  "version": "1.0.0",
+  "short_name": "Daosis"
+}

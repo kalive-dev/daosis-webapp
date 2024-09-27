@@ -22,7 +22,10 @@ export const TribeProvider = ({ children }) => {
       if (response.status === 201) {
         setTribe(response.data.tribe);
         console.log("Tribe created successfully:", response.data);
+
+        return response;
       }
+      return response;
     } catch (error) {
       console.error("Error creating tribe:", error);
     } finally {

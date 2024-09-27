@@ -1,4 +1,5 @@
 // src/components/TopTribesList.js
+
 import { Link } from "react-router-dom";
 import GoBackIcon from "../assets/images/chevron-down.svg";
 import TribeIcon from "../assets/images/main-icon.svg";

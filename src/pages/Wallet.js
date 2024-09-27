@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import backgroundImage from '../assets/images/bg.jpg'; // Assuming the background image exists
-import logo from '../assets/images/main-icon.svg';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import backgroundImage from "../assets/images/bg.jpg"; // Assuming the background image exists
+import logo from "../assets/images/main-icon.svg";
 import doubedIcon from "../assets/images/doubled-icon.svg";
-import { TaskItem } from './Home';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { TaskItem } from "./Home";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import IconOverlay from "../assets/images/icon-cash.svg";
-import Popup, { Button } from '../components/Popup';
+import Popup, { Button } from "../components/Popup";
 import CloseButton from "../assets/images/closebutton.svg";
-
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 const Wallet = () => {
-  const [activeTab, setActiveTab] = useState('balances'); // State to track the active tab
+  const [activeTab, setActiveTab] = useState("balances"); // State to track the active tab
   const [isPopupVisible, setPopupVisible] = useState(false);
-
+  const rawAddress = useTonAddress();
   useEffect(() => {
-    document.body.style.overflow = isPopupVisible ? 'hidden' : '';
+    document.body.style.overflow = isPopupVisible ? "hidden" : "";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isPopupVisible]);
 
@@ -37,7 +37,7 @@ const Wallet = () => {
     <Container>
       <Header>
         <h1>Congratulations!</h1>
-        <button onClick={handleButtonClick}>Connect Wallet</button>
+        <TonConnectButton />
       </Header>
 
       <MainContent>
@@ -45,28 +45,34 @@ const Wallet = () => {
           <PointsHeader>
             <h1>Points</h1>
             <PointsDisplay>
-              <PointsValue>$0</PointsValue>
+              <PointsValue>0$</PointsValue>
             </PointsDisplay>
           </PointsHeader>
           <TabList>
-            <Tab active={activeTab === 'balances'} onClick={() => setActiveTab('balances')}>
+            <Tab
+              active={activeTab === "balances"}
+              onClick={() => setActiveTab("balances")}
+            >
               balances
             </Tab>
-            <Tab active={activeTab === 'history'} onClick={() => setActiveTab('history')}>
+            <Tab
+              active={activeTab === "history"}
+              onClick={() => setActiveTab("history")}
+            >
               history
             </Tab>
             {/* Animated background */}
             <AnimatedBackground activeTab={activeTab} />
           </TabList>
 
-          {activeTab === 'balances' ? (
+          {activeTab === "balances" ? (
             <BalanceContainer>
               <FixedItem>
-                <div className='left-section'>
+                <div className="left-section">
                   <img width={"80px"} src={doubedIcon} alt="icon 1" />
                 </div>
                 <button>
-                  <ArrowForwardIosIcon fontSize='small' />
+                  <ArrowForwardIosIcon fontSize="small" />
                 </button>
               </FixedItem>
 
@@ -110,7 +116,7 @@ const Wallet = () => {
                 marginTop: "10px",
                 color: "rgba(255, 255, 255, 0.8)",
                 backgroundColor: "transparent",
-                outline: "none"
+                outline: "none",
               }}
             />
             <Button>Connect Wallet</Button>
@@ -121,8 +127,7 @@ const Wallet = () => {
   );
 };
 
-const BalanceItem = styled(TaskItem)`
-`;
+const BalanceItem = styled(TaskItem)``;
 
 const FixedItem = styled.div`
   background: rgba(20, 20, 20, 1);
@@ -144,13 +149,13 @@ const FixedItem = styled.div`
   }
   button {
     max-height: 60px;
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+    background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
     color: #fff;
     padding: 10px 15px;
     border: none;
     border-radius: 100px;
     cursor: pointer;
-    
+
     svg {
       font-size: 16px;
     }
@@ -183,7 +188,7 @@ const Header = styled.div`
   }
 
   button {
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+    background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
     color: #fff;
     padding: 12px 40px;
     font-size: 14px;
@@ -215,7 +220,11 @@ const PointsDisplay = styled.div`
 `;
 
 const PointsValue = styled.span`
-  background: linear-gradient(90deg, rgba(46, 235, 155, 0.5) 0%, rgba(36, 179, 239, 0.5) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(46, 235, 155, 0.5) 0%,
+    rgba(36, 179, 239, 0.5) 100%
+  );
   color: #fff;
   padding: 8px 16px;
   border-radius: 20px;
@@ -232,7 +241,7 @@ const TabList = styled.div`
 
 const Tab = styled.div`
   padding: 10px 20px;
-  color: ${(props) => (props.active ? '#fff' : '#888')};
+  color: ${(props) => (props.active ? "#fff" : "#888")};
   font-size: 16px;
   cursor: pointer;
   position: relative;
@@ -246,10 +255,10 @@ const Tab = styled.div`
 const AnimatedBackground = styled.div`
   position: absolute;
   bottom: 0;
-  left: ${(props) => (props.activeTab === 'balances' ? '0%' : '50%')};
+  left: ${(props) => (props.activeTab === "balances" ? "0%" : "50%")};
   width: 50%;
   height: 40px;
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   border-radius: 100px;
   transition: left 0.3s ease-in-out;
   z-index: 0;

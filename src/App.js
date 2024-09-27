@@ -1,15 +1,21 @@
 import "./App.css";
-import React, { useEffect, useContext, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import Home from './pages/Home';
-import Friends from './pages/Friends';
-import Wallet from './pages/Wallet';
-import Settings from './pages/Settings';
-import WalletSettings from './pages/WalletSettings'; // Import the new page
+import React, { useEffect, useContext, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
+import Friends from "./pages/Friends";
+import Wallet from "./pages/Wallet";
+import Settings from "./pages/Settings";
+import WalletSettings from "./pages/WalletSettings"; // Import the new page
 import CommunityPage from "./pages/ComunityPage";
 import TopTribes from "./pages/TopTribes";
-import Welcome from "./pages/Welcome"
+import Welcome from "./pages/Welcome";
 import axios from "axios";
 import { UserProvider } from "./Context/UserContext";
 import { RewardsProvider } from "./Context/RewardsContext";
@@ -17,14 +23,18 @@ import { TasksProvider } from "./Context/TasksContext";
 import { TribeProvider } from "./Context/TribeContext";
 import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
-import StartTribe from './pages/StartTribe'
-import SearchTribe from './pages/SearchTribe'
+import StartTribe from "./pages/StartTribe";
+import SearchTribe from "./pages/SearchTribe";
+import CreatePage from "./pages/Create";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+
 function App() {
   const [userData, setUserData] = useState(null);
   const [refererId, setRefererId] = useState("");
   const [reg_date, setRegDate] = useState(null);
   const location = useLocation();
-  const showBottomNavbar = location.pathname !== '/welcome' && location.pathname !== '/preload';
+  const showBottomNavbar =
+    location.pathname !== "/welcome" && location.pathname !== "/preload";
 
   useEffect(() => {
     const initializeTelegramWebApp = async () => {
@@ -32,14 +42,17 @@ function App() {
         const webAppData = window.Telegram.WebApp.initDataUnsafe;
         const user = webAppData.user;
         const urlParams = new URLSearchParams(window.location.search);
-        const hhh = urlParams.get('tgWebAppStartParam');
+        const hhh = urlParams.get("tgWebAppStartParam");
         setRefererId(hhh);
         if (refererId) {
-          console.log('Referer ID:', refererId);
+          console.log("Referer ID:", refererId);
         }
         if (user) {
           setUserData(user);
-          const randomDate = new Date(Date.UTC(2019, 0, 31) + Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))).toISOString();
+          const randomDate = new Date(
+            Date.UTC(2019, 0, 31) +
+              Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))
+          ).toISOString();
           setRegDate(randomDate);
         } else {
           const defaultUser = {
@@ -49,7 +62,10 @@ function App() {
             is_premium: true,
           };
           setUserData(defaultUser);
-          const randomDate = new Date(Date.UTC(2019, 0, 31) + Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))).toISOString();
+          const randomDate = new Date(
+            Date.UTC(2019, 0, 31) +
+              Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))
+          ).toISOString();
           setRegDate(randomDate);
         }
       } else {
@@ -60,7 +76,10 @@ function App() {
           is_premium: true,
         };
         setUserData(defaultUser);
-        const randomDate = new Date(Date.UTC(2019, 0, 31) + Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))).toISOString();
+        const randomDate = new Date(
+          Date.UTC(2019, 0, 31) +
+            Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))
+        ).toISOString();
         setRegDate(randomDate);
       }
     };
@@ -68,30 +87,38 @@ function App() {
   }, []);
 
   if (!userData) {
-    return <div style={{color:"red"}}>Loading...</div>;
+    return <div style={{ color: "red" }}>Loading...</div>;
   }
 
   return (
     <UserProvider userData={userData}>
-      <div style={{ paddingBottom: '56px', backgroundColor: '#000', color: '#fff' }}>
+      <div
+        style={{
+          paddingBottom: "56px",
+          backgroundColor: "#000",
+          color: "#fff",
+        }}
+      >
         <Routes>
-          <Route path="/preload" element={<PreLoad telegramId={userData.id} />} />
+          <Route
+            path="/preload"
+            element={<PreLoad telegramId={userData.id} />}
+          />
           <Route path="/home" element={<Home />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
-          <Route path="/community" element={<CommunityPage />} >
-            <Route path="top-tribes" element={<TopTribes />} />
-          </Route>
-          <Route path="/start-tribe" element={<StartTribe />}>
-            <Route path="search" element={<TopTribes />} />
-          </Route>
-          <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/top-tribes" element={<TopTribes />} />
           <Route path="/start-tribe" element={<StartTribe />} />
           <Route path="/search" element={<SearchTribe />} />
-          <Route path='*' element={<Navigate to='/preload' />} />
-          {/* Add the new route */}
+          <Route path="/create" element={<CreatePage />} />
+          <Route
+            path="/welcome"
+            element={<Welcome userData={userData} refererId={refererId} />}
+          />
+          <Route path="*" element={<Navigate to="/preload" />} />
         </Routes>
       </div>
       {showBottomNavbar && <NavBar />}
@@ -100,20 +127,23 @@ function App() {
 }
 function AppWrapper() {
   const [showModal, setShowModal] = useState(false);
-  const manifestUrl = new URL('/tonconnect/tonconnect-manifest.json', window.location.origin);
+  const manifestUrl = new URL(
+    "/tonconnect/tonconnect-manifest.json",
+    window.location.origin
+  );
 
   return (
-
-    <TribeProvider>
-      <TasksProvider>
-        <RewardsProvider>
-          <Router>
-            <App />
-          </Router>
-        </RewardsProvider>
-      </TasksProvider>
-    </TribeProvider>
-
+    <TonConnectUIProvider manifestUrl={manifestUrl}>
+      <TribeProvider>
+        <TasksProvider>
+          <RewardsProvider>
+            <Router>
+              <App />
+            </Router>
+          </RewardsProvider>
+        </TasksProvider>
+      </TribeProvider>
+    </TonConnectUIProvider>
   );
 }
 

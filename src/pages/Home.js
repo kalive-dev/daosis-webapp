@@ -1,29 +1,29 @@
-import styled from 'styled-components';
-import logo from '../assets/images/main-icon.svg';
-import backgroundImage from '../assets/images/sqbg.png';
+import styled from "styled-components";
+import logo from "../assets/images/main-icon.svg";
+import backgroundImage from "../assets/images/sqbg.png";
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect,useState,useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import "../Styles/mainStyles.css";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from '../Context/UserContext';
-import { RewardsContext } from '../Context/RewardsContext';
+import { UserContext } from "../Context/UserContext";
+import { RewardsContext } from "../Context/RewardsContext";
 import { TribeContext } from "../Context/TribeContext";
-import {TasksContext} from "../Context/TasksContext";
+import { TasksContext } from "../Context/TasksContext";
 import { API_BASE_URL } from "../Helpers/Api";
 import axios from "axios";
 
-const Home = ({telegramId}) => {
+const Home = ({ telegramId }) => {
   const navigate = useNavigate();
   const { user, fetchUser, updateUserBalance } = useContext(UserContext);
   const { rewards, fetchUserRewards } = useContext(RewardsContext);
   const { tasks, fetchTasks } = useContext(TasksContext);
-  const { tribe,resetTribe,getTribe  } = useContext(TribeContext);
+  const { tribe, resetTribe, getTribe } = useContext(TribeContext);
   const [isLoading, setIsLoading] = useState(false);
   const userFetchedRef = useRef(false);
   const rewardsFetchedRef = useRef(false);
   const tasksFetchedRef = useRef(false);
   const { completeTask } = useContext(TasksContext);
-  const [activeTab, setActiveTab] = useState('new'); // State to track the active tab
+  const [activeTab, setActiveTab] = useState("new"); // State to track the active tab
   const [isChecked, setIsChecked] = useState(false); // Track if the task was checked
   const [checkedTasks, setCheckedTasks] = useState({}); // Track checked state for each task
 
@@ -44,8 +44,8 @@ const Home = ({telegramId}) => {
         }
         tasksFetchedRef.current = true;
       }
-      if(!user.tribe){
-        resetTribe()
+      if (!user.tribe) {
+        resetTribe();
       }
     };
 
@@ -55,11 +55,11 @@ const Home = ({telegramId}) => {
   const handleButtonClick = (task, index) => {
     const storageKey = `task-${index}-checked`;
     const startTimeKey = `task-${index}-startTime`;
-  
+
     // Перевіряємо чи завдання вже відмічене
     if (!checkedTasks[index]) {
       if (task.url) {
-        window.open(task.url, '_blank');
+        window.open(task.url, "_blank");
       }
       // Оновлюємо стан для поточного завдання
       setCheckedTasks((prev) => ({ ...prev, [index]: true }));
@@ -71,26 +71,30 @@ const Home = ({telegramId}) => {
   };
 
   const handleGoToTribes = () => {
-    if (user.tribe){
-      navigate("/community")
+    if (user.tribe) {
+      navigate("/community");
     } else {
-      navigate("/start-tribe")
+      navigate("/start-tribe");
     }
-  }
+  };
 
   const verifyTask = async (telegramId, taskTitle, reward, index) => {
     try {
-      const rewardValue = parseInt(reward.replace('+', ''), 10);
+      const rewardValue = parseInt(reward.replace("+", ""), 10);
       // Send request to verify task
-      const response = await axios.post(`${API_BASE_URL}/tasks/verify/`, {
-        telegram_id: telegramId,
-        task: taskTitle,
-        reward: rewardValue,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        `${API_BASE_URL}/tasks/verify/`,
+        {
+          telegram_id: telegramId,
+          task: taskTitle,
+          reward: rewardValue,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
       if (response.data.status === "success") {
         const updatedBalance = user.balance + rewardValue;
@@ -114,77 +118,97 @@ const Home = ({telegramId}) => {
   return (
     <Container>
       <CommunityBanner>
-      <div className="left-section">
-  <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="community icon" />
-  <div>
-    <Title>{tribe ? tribe.name : "Daosis" }</Title>
-    <Subtitle>{tribe ? tribe.tribe_collected : "Daosis Community"}</Subtitle>
-  </div>
-</div>
-          <button onClick={handleGoToTribes}>open</button>
+        <div className="left-section">
+          <img
+            src={
+              tribe?.photo
+                ? tribe.photo
+                : require("../assets/images/white-icon.png")
+            }
+            alt="community icon"
+          />
+          <div>
+            <Title>{tribe ? tribe.name : "Daosis"}</Title>
+            <Subtitle>
+              {tribe ? tribe.tribe_collected : "Daosis Community"}
+            </Subtitle>
+          </div>
+        </div>
+        <button onClick={handleGoToTribes}>open</button>
       </CommunityBanner>
 
       <TitleGradient>Daily tasks</TitleGradient>
       <TabList>
-        <Tab active={activeTab === 'new'} onClick={() => setActiveTab('new')}>new</Tab>
-        <Tab active={activeTab === 'completed'} onClick={() => setActiveTab('completed')}>completed</Tab>
-        <Tab active={activeTab === 'unfulfilled'} onClick={() => setActiveTab('unfulfilled')}>unfulfilled</Tab>
+        <Tab active={activeTab === "new"} onClick={() => setActiveTab("new")}>
+          new
+        </Tab>
+        <Tab
+          active={activeTab === "completed"}
+          onClick={() => setActiveTab("completed")}
+        >
+          completed
+        </Tab>
+        <Tab
+          active={activeTab === "unfulfilled"}
+          onClick={() => setActiveTab("unfulfilled")}
+        >
+          unfulfilled
+        </Tab>
       </TabList>
 
       <TaskList>
-        {
-          activeTab === 'new' ? (
-            tasks.slice(-3).map((task, index) =>
-              !task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
+        {activeTab === "new"
+          ? tasks.slice(-3).map(
+              (task, index) =>
+                !task.completed && (
+                  <TaskItem key={index}>
+                    <div className="left-section">
+                      <img src={logo} alt="task icon" />
+                      <div>
+                        <h3>{task.title}</h3>
+                        <p>{task.reward}</p>
+                      </div>
                     </div>
-                  </div>
-                  {/* Button appears only for tasks that are not completed */}
-                  <button onClick={() => handleButtonClick(task, index)}>
-  {checkedTasks[index] ? 'Check' : 'START'}
-</button>
-                </TaskItem>
-              )
+                    {/* Button appears only for tasks that are not completed */}
+                    <button onClick={() => handleButtonClick(task, index)}>
+                      {checkedTasks[index] ? "Check" : "START"}
+                    </button>
+                  </TaskItem>
+                )
             )
-          ) : activeTab === 'completed' ? (
-            tasks.map((task, index) =>
-              task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
+          : activeTab === "completed"
+          ? tasks.map(
+              (task, index) =>
+                task.completed && (
+                  <TaskItem key={index}>
+                    <div className="left-section">
+                      <img src={logo} alt="task icon" />
+                      <div>
+                        <h3>{task.title}</h3>
+                        <p>{task.reward}</p>
+                      </div>
                     </div>
-                  </div>
-                  {/* No button for completed tasks */}
-                </TaskItem>
-              )
+                    {/* No button for completed tasks */}
+                  </TaskItem>
+                )
             )
-          ) : (
-            tasks.map((task, index) =>
-              !task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
+          : tasks.map(
+              (task, index) =>
+                !task.completed && (
+                  <TaskItem key={index}>
+                    <div className="left-section">
+                      <img src={logo} alt="task icon" />
+                      <div>
+                        <h3>{task.title}</h3>
+                        <p>{task.reward}</p>
+                      </div>
                     </div>
-                  </div>
-                  <button onClick={() => handleButtonClick(task, index)}>
-  {checkedTasks[index] ? 'Check' : 'START'}
-</button>
-                </TaskItem>
-              )
-            )
-          )
-        }
+                    <button onClick={() => handleButtonClick(task, index)}>
+                      {checkedTasks[index] ? "Check" : "START"}
+                    </button>
+                  </TaskItem>
+                )
+            )}
       </TaskList>
     </Container>
   );
@@ -204,7 +228,7 @@ const Container = styled.div`
 `;
 
 const CommunityBanner = styled.div`
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   color: #000;
   border-radius: 12px;
   display: flex;
@@ -254,7 +278,7 @@ const Title = styled.h1`
 const TitleGradient = styled.h1`
   font-size: 48px;
   margin-bottom: 20px;
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   -webkit-background-clip: text;
   color: transparent;
 `;
@@ -274,7 +298,7 @@ const TabList = styled.div`
 
 const Tab = styled.div`
   padding-bottom: 10px;
-  color: ${(props) => (props.active ? '#fff' : '#888')};
+  color: ${(props) => (props.active ? "#fff" : "#888")};
   font-size: 20px;
   font-weight: 600;
   cursor: pointer;
@@ -284,7 +308,7 @@ const TaskList = styled.div`
   background-color: #1c1c1c;
   border-radius: 12px;
   padding: 10px;
-  min-height:250px;
+  min-height: 250px;
 `;
 
 const TaskItem = styled.div`
@@ -318,7 +342,7 @@ const TaskItem = styled.div`
   }
 
   button {
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+    background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
     font-weight: 400;
     color: #fff;
     padding: 8px 16px;

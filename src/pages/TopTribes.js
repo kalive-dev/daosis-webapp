@@ -15,7 +15,6 @@ const TopTribes = () => {
     await searchTribe(tribe2.name);
     navigate("/community");
   };
-
   return (
     <Container>
       <Header>
