@@ -37,7 +37,6 @@ function App() {
         if (refererId) {
           console.log('Referer ID:', refererId);
         }
-
         if (user) {
           const randomDate = new Date(Date.UTC(2019, 0, 31) + Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))).toISOString();
           setRegDate(randomDate);
