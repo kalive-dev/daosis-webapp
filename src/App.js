@@ -67,7 +67,7 @@ function App() {
   }, []);
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div style={{color:"red"}}>Loading...</div>;
   }
 
   return (
