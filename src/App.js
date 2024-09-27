@@ -19,6 +19,7 @@ import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
 import StartTribe from './pages/StartTribe'
 import SearchTribe from './pages/SearchTribe'
+import CreatePage from './pages/Create'
 function App() {
   const [userData, setUserData] = useState(null);
   const [refererId, setRefererId] = useState("");
@@ -68,7 +69,7 @@ function App() {
   }, []);
 
   if (!userData) {
-    return <div style={{color:"red"}}>Loading...</div>;
+    return <div style={{ color: "red" }}>Loading...</div>;
   }
 
   return (
@@ -81,18 +82,15 @@ function App() {
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
-          <Route path="/community" element={<CommunityPage />} >
-            <Route path="top-tribes" element={<TopTribes />} />
-          </Route>
-          <Route path="/start-tribe" element={<StartTribe />}>
-            <Route path="search" element={<TopTribes />} />
-          </Route>
-          <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/top-tribes" element={<TopTribes />} />
           <Route path="/start-tribe" element={<StartTribe />} />
           <Route path="/search" element={<SearchTribe />} />
+          <Route path="/create" element={<CreatePage />} />
+          <Route path="/welcome" element={<Welcome userData={userData} refererId={refererId} />} />
           <Route path='*' element={<Navigate to='/preload' />} />
-          {/* Add the new route */}
         </Routes>
+
       </div>
       {showBottomNavbar && <NavBar />}
     </UserProvider>

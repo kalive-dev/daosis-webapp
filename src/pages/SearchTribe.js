@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import GoBackIcon from '../assets/images/chevron-down.svg'
 import TribeIcon from '../assets/images/main-icon.svg'
 import { Input } from '../components/Popup';
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBar from '../components/SearchBar'
@@ -11,42 +11,42 @@ import { TribeContext } from "../Context/TribeContext";
 import { useNavigate } from "react-router-dom";
 const SearchTribe = () => {
   const navigate = useNavigate();
-  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const { topTribes, searchTribe } = useContext(TribeContext);
   const handleTribeClick = async (tribe2) => {
     await searchTribe(tribe2.name);
     navigate("/community");
   };
-  
-    return (
-        <Container>
-            <Header style={{ flexDirection: "column", alignItems: "start" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Link to="/start-tribe">
-                        <img src={GoBackIcon} />
-                    </Link>
-                    <Title>top tribes</Title>
-                </div>
-                <SearchBar></SearchBar>
-            </Header>
-            <TribeList>
-            {topTribes.slice(0, 250).map((tribe) => (
-  <TribeItem key={tribe.tribe_id}  onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
-    <TribeImage>
-      <img
-        src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
-        alt="tribe icon"
-      />
-    </TribeImage>
-    <TribeDetails>
-      <TribeTitle>{tribe.name}</TribeTitle>
-      <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
-    </TribeDetails>
-    <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
-  </TribeItem>
-))}
-            </TribeList>
-        </Container>
-    );
+
+  return (
+    <Container>
+      <Header style={{ flexDirection: "column", alignItems: "start" }}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Link to="/start-tribe">
+            <img src={GoBackIcon} />
+          </Link>
+          <Title>top tribes</Title>
+        </div>
+        <SearchBar></SearchBar>
+      </Header>
+      <TribeList>
+        {topTribes.slice(0, 250).map((tribe) => (
+          <TribeItem key={tribe.tribe_id} onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
+            <TribeImage>
+              <img
+                src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+                alt="tribe icon"
+              />
+            </TribeImage>
+            <TribeDetails>
+              <TribeTitle>{tribe.name}</TribeTitle>
+              <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+            </TribeDetails>
+            <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
+          </TribeItem>
+        ))}
+      </TribeList>
+    </Container>
+  );
 };
 
 

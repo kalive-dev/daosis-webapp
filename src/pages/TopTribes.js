@@ -1,31 +1,30 @@
 // src/components/TopTribesList.js
-import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import GoBackIcon from '../assets/images/chevron-down.svg'
-import TribeIcon from '../assets/images/main-icon.svg'
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import GoBackIcon from "../assets/images/chevron-down.svg";
+import TribeIcon from "../assets/images/main-icon.svg";
 import { TribeContext } from "../Context/TribeContext";
 import { useNavigate } from "react-router-dom";
-import { Input } from '../components/Popup';
+import { Input } from "../components/Popup";
 
 const TopTribes = () => {
   const navigate = useNavigate();
-  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const { topTribes, searchTribe } = useContext(TribeContext);
   const handleTribeClick = async (tribe2) => {
     await searchTribe(tribe2.name);
     navigate("/community");
   };
-  
-    return (
-        <Container>
-            <Header>
-                <Link to="/community">
-                    <img src={GoBackIcon} />
-                </Link>
-                <Title>top tribes</Title>
-            </Header>
-            <TribeList>
-            {topTribes.map((tribe) => (
+  return (
+    <Container>
+      <Header>
+        <Link to="/community">
+          <img src={GoBackIcon} />
+        </Link>
+        <Title>top tribes</Title>
+      </Header>
+      <TribeList>
+        {topTribes.map((tribe) => (
           <TribeItem key={tribe.id} onClick={() => handleTribeClick(tribe)}>
             <TribeImage>
               <img
@@ -40,10 +39,11 @@ const TopTribes = () => {
             <Rank>{tribe.rank}</Rank>
           </TribeItem>
         ))}
-            </TribeList>
-        </Container>
-    );
-  }
+      </TribeList>
+    </Container>
+  );
+}
+
 
 
 const Search = styled(Input)`

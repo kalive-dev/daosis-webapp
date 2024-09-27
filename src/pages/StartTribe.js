@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { TribeContext } from "../Context/TribeContext";
@@ -8,12 +8,12 @@ import ArrowRightGradient from '../assets/images/arrowright.svg';
 import StrangeIcon from '../assets/images/strangething.svg'
 const StartTribe = () => {
     const navigate = useNavigate();
-  const { topTribes,searchTribe  } = useContext(TribeContext);
-  const handleTribeClick = async (tribe2) => {
-    await searchTribe(tribe2.name);
-    navigate("/community");
-  };
-  
+    const { topTribes, searchTribe } = useContext(TribeContext);
+    const handleTribeClick = async (tribe2) => {
+        await searchTribe(tribe2.name);
+        navigate("/community");
+    };
+
 
     return (
         <Container>
@@ -29,12 +29,12 @@ const StartTribe = () => {
                 </Subtitle>
                 <ButtonContainer>
                     <Link to="/search"><Button primary>Join tribe</Button></Link>
-                    <Button>Create new</Button>
+                    <Link to="/create"><Button>Create new</Button></Link>
                 </ButtonContainer>
             </TitleContainer>
             <div className='header-tribe'>
                 <h2>Top tribes</h2>
-                <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className='see-all'>
                         <h3>see all</h3>
                         <img src={ArrowRightGradient} />
@@ -43,22 +43,22 @@ const StartTribe = () => {
             </div>
             <TribeContainer style={{ marginBottom: "30px" }}>
                 <TribeList>
-                {topTribes.slice(0, 3).map((tribe) => (
-  <TribeItem key={tribe.tribe_id} onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
-    <TribeImage>
-      {/* Відображення зображення або плейсхолдера */}
-      <img
-        src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
-        alt="tribe icon"
-      />
-    </TribeImage>
-    <TribeDetails>
-      <TribeTitle>{tribe.name}</TribeTitle>
-      <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
-    </TribeDetails>
-    <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
-  </TribeItem>
-))}
+                    {topTribes.slice(0, 3).map((tribe) => (
+                        <TribeItem key={tribe.tribe_id} onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
+                            <TribeImage>
+                                {/* Відображення зображення або плейсхолдера */}
+                                <img
+                                    src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+                                    alt="tribe icon"
+                                />
+                            </TribeImage>
+                            <TribeDetails>
+                                <TribeTitle>{tribe.name}</TribeTitle>
+                                <TribeSubtitle>{tribe.tribe_collected}</TribeSubtitle>
+                            </TribeDetails>
+                            <Rank>{tribe.rank}</Rank> {/* Відображення позиції племені */}
+                        </TribeItem>
+                    ))}
 
                 </TribeList>
             </TribeContainer>
