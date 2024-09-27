@@ -12,9 +12,8 @@ const CreateTribe = () => {
   const navigate = useNavigate();
   const { createTribe } = useContext(TribeContext);
   const { user, setUser } = useContext(UserContext);
-
   const handleCopy = () => {
-    const textToCopy = "@blum_sigma_bot";
+    const textToCopy = "@daosis_bot";
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -42,39 +41,49 @@ const CreateTribe = () => {
 
   return (
     <Container>
-      <Title>Create new tribe</Title>
+      <Section>
+        <Title>Create new tribe</Title>
 
-      <AddToChannel>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <span>Add the Blum bot as an admin</span>
-          <p>@blum_sigma_bot</p>
-        </div>
-        <CopyWrapper onClick={handleCopy}>
-          <ContentCopyIcon />
-        </CopyWrapper>
-      </AddToChannel>
+        <AddToChannel>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span>Add the Daosis bot as an admin</span>
+            <p>@daosis_bot</p>
+          </div>
+          <CopyWrapper onClick={handleCopy}>
+            <ContentCopyIcon />
+          </CopyWrapper>
+        </AddToChannel>
 
-      {copied && <CopiedMessage>Copied!</CopiedMessage>}
+        <TelegramInputContainer>
+          <TelegramLabel>Telegram</TelegramLabel>
+          <TelegramInputWrapper>
+            <StaticText>t.me/</StaticText>
+            <TelegramInput
+              type="text"
+              value={telegramLink}
+              onChange={(e) => setTelegramLink(e.target.value)}
+            />
+          </TelegramInputWrapper>
+        </TelegramInputContainer>
+      </Section>
 
-      <TelegramInputContainer>
-        <TelegramLabel>Telegram</TelegramLabel>
-        <TelegramInput
-          type="text"
-          placeholder="t.me/"
-          value={telegramLink}
-          onChange={(e) => setTelegramLink(e.target.value)}
-        />
+      <Section>
         <InfoMessage>
           If you prefer, you can remove our validation bot after successful
           creation.
         </InfoMessage>
-      </TelegramInputContainer>
-
-      <CreateButton onClick={handleCreate}>Create</CreateButton>
+        <CreateButton onClick={handleCreate}>Create</CreateButton>
+      </Section>
     </Container>
   );
 };
-
+const Section = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+`;
 // Styles
 const Container = styled.div`
   display: flex;
@@ -113,39 +122,47 @@ const CopyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-`;
 
-const CopiedMessage = styled.span`
-  font-size: 14px;
-  color: green;
-  margin-top: 10px;
+  cursor: pointer;
 `;
 
 const TelegramInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 40px; // ADD MARGIN TOP FOR EXTRA SPACE
+  align-items: left;
+  margin-top: 40px;
 `;
 
 const TelegramLabel = styled.span`
   text-align: left;
   font-weight: bold;
   color: #ffffff;
+  margin-bottom: 10px;
 `;
 
-const TelegramInput = styled.input`
+const TelegramInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
   background-color: #222222;
-  color: white;
-  width: 90%;
+  width: 90vw;
   max-width: 500px;
   padding: 10px;
   border: 1px solid #555555;
-  outline: none;
   border-radius: 5px;
+`;
+
+const StaticText = styled.span`
+  color: #999999;
+  margin-right: 5px;
+`;
+
+const TelegramInput = styled.input`
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  flex: 1;
   font-size: 16px;
-  margin-top: 10px;
 `;
 
 const InfoMessage = styled.p`
@@ -157,6 +174,7 @@ const InfoMessage = styled.p`
 `;
 
 const CreateButton = styled.button`
+  width: 90vw;
   background-color: #4caf50;
   color: white;
   padding: 12px 24px;
@@ -165,6 +183,7 @@ const CreateButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   margin-top: 20px;
+  margin-bottom: 100px;
 
   &:hover {
     background-color: #45a049;

@@ -18,7 +18,14 @@ const TopTribes = () => {
   return (
     <Container>
       <Header>
-        <Link to="/community">
+
+        <Link
+          to={'..'}
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(-1);
+          }}
+        >
           <img src={GoBackIcon} />
         </Link>
         <Title>top tribes</Title>

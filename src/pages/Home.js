@@ -169,6 +169,7 @@ const Home = ({ telegramId }) => {
                         <p>{task.reward}</p>
                       </div>
                     </div>
+
                     {/* Button appears only for tasks that are not completed */}
                     <button onClick={() => handleButtonClick(task, index)}>
                       {checkedTasks[index] ? "Check" : "START"}
@@ -203,6 +204,7 @@ const Home = ({ telegramId }) => {
                         <p>{task.reward}</p>
                       </div>
                     </div>
+
                     <button onClick={() => handleButtonClick(task, index)}>
                       {checkedTasks[index] ? "Check" : "START"}
                     </button>
@@ -213,7 +215,6 @@ const Home = ({ telegramId }) => {
     </Container>
   );
 };
-
 const Container = styled.div`
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -308,7 +309,6 @@ const TaskList = styled.div`
   background-color: #1c1c1c;
   border-radius: 12px;
   padding: 10px;
-  min-height: 250px;
 `;
 
 const TaskItem = styled.div`

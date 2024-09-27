@@ -159,7 +159,7 @@ const CommunityPage = () => {
             <div className="header-tribe">
               <h2>Your tribe</h2>
               <Link
-                to="/community/top-tribes"
+                to="/top-tribes"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <div className="see-all">
