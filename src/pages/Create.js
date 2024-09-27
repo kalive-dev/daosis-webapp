@@ -29,6 +29,9 @@ const CreateTribe = () => {
 
     return (
         <Container>
+            <div>
+
+            </div>
             <Title>Create new tribe</Title>
 
             <AddToChannel>
@@ -40,8 +43,6 @@ const CreateTribe = () => {
                     <ContentCopyIcon />
                 </CopyWrapper>
             </AddToChannel>
-
-            {copied && <CopiedMessage>Copied!</CopiedMessage>}
 
             <TelegramInputContainer>
                 <TelegramLabel>Telegram</TelegramLabel>

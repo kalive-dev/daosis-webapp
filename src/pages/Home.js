@@ -2,22 +2,22 @@ import styled from 'styled-components';
 import logo from '../assets/images/main-icon.svg';
 import backgroundImage from '../assets/images/sqbg.png';
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect,useState,useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import "../Styles/mainStyles.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from '../Context/UserContext';
 import { RewardsContext } from '../Context/RewardsContext';
 import { TribeContext } from "../Context/TribeContext";
-import {TasksContext} from "../Context/TasksContext";
+import { TasksContext } from "../Context/TasksContext";
 import { API_BASE_URL } from "../Helpers/Api";
 import axios from "axios";
 
-const Home = ({telegramId}) => {
+const Home = ({ telegramId }) => {
   const navigate = useNavigate();
   const { user, fetchUser, updateUserBalance } = useContext(UserContext);
   const { rewards, fetchUserRewards } = useContext(RewardsContext);
   const { tasks, fetchTasks } = useContext(TasksContext);
-  const { tribe,resetTribe,getTribe  } = useContext(TribeContext);
+  const { tribe, resetTribe, getTribe } = useContext(TribeContext);
   const [isLoading, setIsLoading] = useState(false);
   const userFetchedRef = useRef(false);
   const rewardsFetchedRef = useRef(false);
@@ -44,7 +44,7 @@ const Home = ({telegramId}) => {
         }
         tasksFetchedRef.current = true;
       }
-      if(!user.tribe){
+      if (!user.tribe) {
         resetTribe()
       }
     };
@@ -55,7 +55,7 @@ const Home = ({telegramId}) => {
   const handleButtonClick = (task, index) => {
     const storageKey = `task-${index}-checked`;
     const startTimeKey = `task-${index}-startTime`;
-  
+
     // Перевіряємо чи завдання вже відмічене
     if (!checkedTasks[index]) {
       if (task.url) {
@@ -71,7 +71,7 @@ const Home = ({telegramId}) => {
   };
 
   const handleGoToTribes = () => {
-    if (user.tribe){
+    if (user.tribe) {
       navigate("/community")
     } else {
       navigate("/start-tribe")
@@ -114,14 +114,14 @@ const Home = ({telegramId}) => {
   return (
     <Container>
       <CommunityBanner>
-      <div className="left-section">
-  <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="community icon" />
-  <div>
-    <Title>{tribe ? tribe.name : "Daosis" }</Title>
-    <Subtitle>{tribe ? tribe.tribe_collected : "Daosis Community"}</Subtitle>
-  </div>
-</div>
-          <button onClick={handleGoToTribes}>open</button>
+        <div className="left-section">
+          <img src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')} alt="community icon" />
+          <div>
+            <Title>{tribe ? tribe.name : "Daosis"}</Title>
+            <Subtitle>{tribe ? tribe.tribe_collected : "Daosis Community"}</Subtitle>
+          </div>
+        </div>
+        <button onClick={handleGoToTribes}>open</button>
       </CommunityBanner>
 
       <TitleGradient>Daily tasks</TitleGradient>
@@ -146,8 +146,8 @@ const Home = ({telegramId}) => {
                   </div>
                   {/* Button appears only for tasks that are not completed */}
                   <button onClick={() => handleButtonClick(task, index)}>
-  {checkedTasks[index] ? 'Check' : 'START'}
-</button>
+                    {checkedTasks[index] ? 'Check' : 'START'}
+                  </button>
                 </TaskItem>
               )
             )
@@ -178,8 +178,8 @@ const Home = ({telegramId}) => {
                     </div>
                   </div>
                   <button onClick={() => handleButtonClick(task, index)}>
-  {checkedTasks[index] ? 'Check' : 'START'}
-</button>
+                    {checkedTasks[index] ? 'Check' : 'START'}
+                  </button>
                 </TaskItem>
               )
             )
@@ -284,7 +284,7 @@ const TaskList = styled.div`
   background-color: #1c1c1c;
   border-radius: 12px;
   padding: 10px;
-  min-height:250px;
+
 `;
 
 const TaskItem = styled.div`
