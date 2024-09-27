@@ -66,6 +66,15 @@ const Home = ({telegramId}) => {
       verifyTask(user.telegram_id, task.title, task.reward, index);
     }
   };
+
+  const handleGoToTribes = () => {
+    if (user.tribe){
+      navigate("/community")
+    } else {
+      navigate("/start-tribe")
+    }
+  }
+
   const verifyTask = async (telegramId, taskTitle, reward, index) => {
     try {
       const rewardValue = parseInt(reward.replace('+', ''), 10);
@@ -109,9 +118,7 @@ const Home = ({telegramId}) => {
     <Subtitle>{tribe ? tribe.tribe_collected : "Daosis Community"}</Subtitle>
   </div>
 </div>
-        <Link to="/community">
-          <button>open</button>
-        </Link>
+          <button onClick={handleGoToTribes}>open</button>
       </CommunityBanner>
 
       <TitleGradient>Daily tasks</TitleGradient>
