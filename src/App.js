@@ -37,7 +37,6 @@ function App() {
         if (refererId) {
           console.log('Referer ID:', refererId);
         }
-
         if (user) {
           const randomDate = new Date(Date.UTC(2019, 0, 31) + Math.random() * (Date.UTC(2024, 6, 10) - Date.UTC(2019, 0, 31))).toISOString();
           setRegDate(randomDate);
@@ -78,7 +77,7 @@ function App() {
           <Route path="/preload" element={<PreLoad telegramId={userData.id} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/friends" element={<Friends />} />
-          <Route path="/wallet" element={<Wallet />} />scrolling
+          <Route path="/wallet" element={<Wallet />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/wallet-settings" element={<WalletSettings />} />
           <Route path="/community" element={<CommunityPage />} >

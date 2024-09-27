@@ -207,6 +207,7 @@ const CommunityPage = () => {
                                 </p>
                                 <Link to="/"><LeaderboardButton>btn</LeaderboardButton></Link>
 
+
                             </div>
                         </LeaderboardSection>
                         <Popup
