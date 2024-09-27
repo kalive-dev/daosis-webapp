@@ -96,17 +96,17 @@ const CommunityPage = () => {
         copyToClipboard(qrcodevalue);
     };
     const handleButtonClickLeave = () => {
-        leaveMyTribe(user.telegram_id,user.tribe)
+        leaveMyTribe(user.telegram_id, user.tribe)
         navigate("/home");
     };
     return (
         <CommunityContainer>
             <Header>
                 <img src={Icon} width="190px" />
-                <CommunityTitle>{tribe ? tribe.name : "Daosis" }</CommunityTitle>
+                <CommunityTitle>{tribe ? tribe.name : "Daosis"}</CommunityTitle>
                 <div className='rings'>
                     <img src={RingL} />
-                    <span style={{ margin: "10px", color: 'white' }}>{tribe ? tribe.tribe_collected : "Daosis" }</span>
+                    <span style={{ margin: "10px", color: 'white' }}>{tribe ? tribe.tribe_collected : "Daosis"}</span>
                     <ArrowForwardIosIcon fontSize='10px' style={{ color: 'white' }} />
                     <img src={RingR} />
                 </div>
@@ -118,7 +118,7 @@ const CommunityPage = () => {
             </Header>
             <div className='header-tribe'>
                 <h2>Your tribe</h2>
-                <Link to="/community/top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="top-tribes" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <div className='see-all'>
                         <h3>see all</h3>
                         <img src={ArrowRightGradient} />
