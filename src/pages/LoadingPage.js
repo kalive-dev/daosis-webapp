@@ -15,10 +15,10 @@ import { Spinner } from "../icons/Spinner";
 
 const PreLoad = ({ telegramId }) => {
   const navigate = useNavigate();
-  const { user, setUser, updateUserBalance } = useContext(UserContext);
+  const { user, setUser, resetUserTribe } = useContext(UserContext);
   const { setRewards } = useContext(RewardsContext);
   const { setTasks } = useContext(TasksContext);
-  const { fetchTribe,fetchTopTribes  } = useContext(TribeContext);
+  const { fetchTribe,fetchTopTribes,leaveMyTribe  } = useContext(TribeContext);
   const [rewardData, setRewardData] = useState(null);
   const [showRewardPage, setShowRewardPage] = useState(false);
 
@@ -56,29 +56,37 @@ const PreLoad = ({ telegramId }) => {
       await fetchTasks(telegramId);
       
   };
-
+  
+  
   const fetchUser = async (telegramId) => {
-      try {
-          const response = await axios.post(`${API_BASE_URL}/users/join/`, {
-              user_id: telegramId
-          });
-
-          if (response.status === 200 && response.data.status === "success") {
-            const userData = response.data.user;
-            setUser(userData);
-              if (userData.tribe) {
-                await fetchTribe(userData.tribe); 
-              }
-          } else {
-              console.error("Error fetching user:", response.data.message);
+    try {
+      const response = await axios.post(`${API_BASE_URL}/users/join/`, {
+        user_id: telegramId,
+      });
+  
+      if (response.status === 200 && response.data.status === "success") {
+        const userData = response.data.user;
+        setUser(userData);
+  
+        if (userData.tribe) {
+          const result = await fetchTribe(userData.tribe);
+  
+          // Check if the tribe exists, if not, leave the tribe
+          if (!result || result.status !== 200) {
+            await leaveMyTribe(telegramId, userData.tribe);
+            resetUserTribe()
           }
-      } catch (error) {
-          if (error.response && error.response.status === 404) {
-              navigate("/welcome"); // Navigate to WelcomePage if user is not found
-          } else {
-              console.error("Failed to fetch user:", error);
-          }
+        }
+      } else {
+        console.error("Error fetching user:", response.data.message);
       }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        navigate("/welcome"); // Navigate to WelcomePage if user is not found
+      } else {
+        console.error("Failed to fetch user:", error);
+      }
+    }
   };
 
   const fetchUserRewards = async (telegramId) => {
