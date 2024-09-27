@@ -5,9 +5,7 @@ import { API_BASE_URL } from "../Helpers/Api";
 export const TasksContext = createContext();
 
 export const TasksProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([
-    
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   const completeTask = (index) => {
     setTasks(

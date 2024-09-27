@@ -78,10 +78,14 @@ export const TribeProvider = ({ children }) => {
 
       if (response.status === 200 && response.data.status === "success") {
         setTribe(response.data.tribe);
-        setTribePosition(response.data.position); // Збереження позиції племені
+        setTribePosition(response.data.position);
+        const tribe = response.data.tribe;
+        return [tribe];
       }
+      return [];
     } catch (error) {
       console.error("Error fetching tribe:", error);
+      return [];
     } finally {
       setTribeLoading(false);
     }
@@ -91,21 +95,20 @@ export const TribeProvider = ({ children }) => {
     try {
       setTribeLoading(true);
       const response = await axios.post(`${API_BASE_URL}/get_user_tribe/`, {
-        tribe_id: tribeId
+        tribe_id: tribeId,
       });
 
       if (response.status === 200) {
         setTribe(response.data.tribe);
-        setTribePosition(response.data.position); 
+        setTribePosition(response.data.position);
       } else {
-        setTribe(null)
+        setTribe(null);
       }
       return response;
     } catch (error) {
       console.error("Error fetching tribe:", error);
     } finally {
       setTribeLoading(false);
-      
     }
   };
 
@@ -126,7 +129,7 @@ export const TribeProvider = ({ children }) => {
   };
 
   const resetTribe = () => {
-    setTribe(null); 
+    setTribe(null);
   };
 
   return (
@@ -141,7 +144,7 @@ export const TribeProvider = ({ children }) => {
         fetchTribe,
         fetchTopTribes,
         searchTribe,
-        resetTribe
+        resetTribe,
       }}
     >
       {children}

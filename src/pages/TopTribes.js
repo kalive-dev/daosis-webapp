@@ -1,35 +1,39 @@
 // src/components/TopTribesList.js
-import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import GoBackIcon from '../assets/images/chevron-down.svg'
-import TribeIcon from '../assets/images/main-icon.svg'
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import GoBackIcon from "../assets/images/chevron-down.svg";
+import TribeIcon from "../assets/images/main-icon.svg";
 import { TribeContext } from "../Context/TribeContext";
 import { useNavigate } from "react-router-dom";
-import { Input } from '../components/Popup';
+import { Input } from "../components/Popup";
 
 const TopTribes = () => {
   const navigate = useNavigate();
-  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const { topTribes, searchTribe } = useContext(TribeContext);
   const handleTribeClick = async (tribe2) => {
     await searchTribe(tribe2.name);
     navigate("/community");
   };
-  
-    return (
-        <Container>
-            <Header>
-                <Link to="/community">
-                    <img src={GoBackIcon} />
-                </Link>
-                <Title>top tribes</Title>
-            </Header>
-            <TribeList>
-            {topTribes.map((tribe) => (
+
+  return (
+    <Container>
+      <Header>
+        <Link to="/community">
+          <img src={GoBackIcon} />
+        </Link>
+        <Title>top tribes</Title>
+      </Header>
+      <TribeList>
+        {topTribes.map((tribe) => (
           <TribeItem key={tribe.id} onClick={() => handleTribeClick(tribe)}>
             <TribeImage>
               <img
-                src={tribe?.photo ? tribe.photo : require('../assets/images/white-icon.png')}
+                src={
+                  tribe?.photo
+                    ? tribe.photo
+                    : require("../assets/images/white-icon.png")
+                }
                 alt="tribe icon"
               />
             </TribeImage>
@@ -40,23 +44,21 @@ const TopTribes = () => {
             <Rank>{tribe.rank}</Rank>
           </TribeItem>
         ))}
-            </TribeList>
-        </Container>
-    );
-  }
-
+      </TribeList>
+    </Container>
+  );
+};
 
 const Search = styled(Input)`
-padding: 10px 20px;
-font-size: 24px;
-  &::placeholder{
+  padding: 10px 20px;
+  font-size: 24px;
+  &::placeholder {
     font-size: 24px;
-    font-weight:500;
+    font-weight: 500;
   }
-
-`
+`;
 const Container = styled.div`
-    margin-top:50px;
+  margin-top: 50px;
   padding: 20px;
   background-color: #000;
   height: 100vh;
@@ -77,12 +79,12 @@ const BackButton = styled.button`
 `;
 
 const Title = styled.h2`
-font-size: 24px;
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
-    -webkit-background-clip: text;
-    color:transparent;
-    margin-left: 10px;
-    font-weight: 700;
+  font-size: 24px;
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-left: 10px;
+  font-weight: 700;
 `;
 
 const TribeList = styled.div`
@@ -98,7 +100,7 @@ const TribeItem = styled.div`
 
   border-radius: 15px;
   padding: 10px;
-  height:64px;
+  height: 64px;
 `;
 
 const TribeImage = styled.div`
@@ -120,7 +122,7 @@ const TribeDetails = styled.div`
 const TribeTitle = styled.div`
   font-weight: 400;
   font-size: 20px;
-  margin-bottom:4px;
+  margin-bottom: 4px;
 `;
 
 const TribeSubtitle = styled.div`
@@ -130,7 +132,7 @@ const TribeSubtitle = styled.div`
 `;
 
 const Rank = styled.div`
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   color: #fff;
   border-radius: 50%;
   width: 40px;
@@ -139,7 +141,16 @@ const Rank = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size:21px;
+  font-size: 21px;
 `;
-export { TribeList, TribeItem, TribeImage, TribeIcon, TribeDetails, TribeTitle, TribeSubtitle, Rank }
+export {
+  TribeList,
+  TribeItem,
+  TribeImage,
+  TribeIcon,
+  TribeDetails,
+  TribeTitle,
+  TribeSubtitle,
+  Rank,
+};
 export default TopTribes;
