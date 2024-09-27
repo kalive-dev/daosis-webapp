@@ -7,7 +7,7 @@ const CreateTribe = () => {
     const [telegramLink, setTelegramLink] = useState('');
 
     const handleCopy = () => {
-        const textToCopy = '@blum_sigma_bot';
+        const textToCopy = '@daosis_bot';
         navigator.clipboard.writeText(textToCopy)
             .then(() => {
                 setCopied(true);
@@ -29,45 +29,55 @@ const CreateTribe = () => {
 
     return (
         <Container>
-            <div>
+            <Section>
+                <Title>Create new tribe</Title>
 
-            </div>
-            <Title>Create new tribe</Title>
+                <AddToChannel>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span>Add the Daosis bot as an admin</span>
+                        <p>@daosis_bot</p>
+                    </div>
+                    <CopyWrapper onClick={handleCopy}>
+                        <ContentCopyIcon />
+                    </CopyWrapper>
+                </AddToChannel>
+                <TelegramInputContainer>
+                    <TelegramLabel>Telegram</TelegramLabel>
+                    <TelegramInputWrapper>
+                        <StaticText>t.me/</StaticText>
+                        <TelegramInput
+                            type="text"
+                            value={telegramLink}
+                            onChange={(e) => setTelegramLink(e.target.value)}
+                        />
+                    </TelegramInputWrapper>
+                </TelegramInputContainer>
+            </Section>
 
-            <AddToChannel>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span>Add the Blum bot as an admin</span>
-                    <p>@blum_sigma_bot</p>
-                </div>
-                <CopyWrapper onClick={handleCopy}>
-                    <ContentCopyIcon />
-                </CopyWrapper>
-            </AddToChannel>
-
-            <TelegramInputContainer>
-                <TelegramLabel>Telegram</TelegramLabel>
-                <TelegramInput
-                    type="text"
-                    placeholder="t.me/"
-                    value={telegramLink}
-                    onChange={(e) => setTelegramLink(e.target.value)}
-                />
+            <Section>
                 <InfoMessage>
                     If you prefer, you can remove our validation bot after successful creation.
                 </InfoMessage>
-            </TelegramInputContainer>
+                <CreateButton onClick={handleCreate}>Create</CreateButton>
+            </Section>
 
-            <CreateButton onClick={handleCreate}>Create</CreateButton>
         </Container>
     );
 };
-
+const Section = styled.div`
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction:column;
+    width: 90vw;
+`
 // Styles
 const Container = styled.div`
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 20px;
     background-color: #000000;
     color: #ffffff;
@@ -75,21 +85,20 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-    margin-top: 60px;
-    font-size: 24px;
+    margin-top: 30px;
+    font-size: 30px;
     color: #ffffff;
 `;
 
 const AddToChannel = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     width: 100%;
     max-width: 500px;
     padding: 10px;
-    margin-top: 30px;
-    margin-bottom: 60px;  // ADD THIS TO CREATE SPACE BETWEEN SECTIONS
+    margin-top: 30px; 
 
     p {
         color: #999999;
@@ -100,39 +109,47 @@ const CopyWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    cursor: pointer;
-`;
 
-const CopiedMessage = styled.span`
-    font-size: 14px;
-    color: green;
-    margin-top: 10px;
+    cursor: pointer;
 `;
 
 const TelegramInputContainer = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 40px; // ADD MARGIN TOP FOR EXTRA SPACE
+    align-items: left;
+    margin-top: 40px;
 `;
 
 const TelegramLabel = styled.span`
     text-align: left;
     font-weight: bold;
     color: #ffffff;
+    margin-bottom:10px;
 `;
 
-const TelegramInput = styled.input`
+const TelegramInputWrapper = styled.div`
+    display: flex;
+    align-items: center;
     background-color: #222222;
-    color: white;
-    width: 90%;
+    width: 90vw;
     max-width: 500px;
     padding: 10px;
     border: 1px solid #555555;
-    outline: none;
     border-radius: 5px;
+`;
+
+const StaticText = styled.span`
+    color: #999999;
+    margin-right: 5px;
+`;
+
+const TelegramInput = styled.input`
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    flex: 1;
     font-size: 16px;
-    margin-top: 10px;
 `;
 
 const InfoMessage = styled.p`
@@ -144,6 +161,7 @@ const InfoMessage = styled.p`
 `;
 
 const CreateButton = styled.button`
+    width: 90vw;
     background-color: #4CAF50;
     color: white;
     padding: 12px 24px;
@@ -152,6 +170,7 @@ const CreateButton = styled.button`
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+    margin-bottom:100px;
 
     &:hover {
         background-color: #45a049;

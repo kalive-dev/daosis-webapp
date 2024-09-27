@@ -64,6 +64,7 @@ const Wallet = () => {
               <FixedItem>
                 <div className='left-section'>
                   <img width={"80px"} src={doubedIcon} alt="icon 1" />
+                  Earn more in Drop game, Tasks and Quests.
                 </div>
                 <button>
                   <ArrowForwardIosIcon fontSize='small' />
