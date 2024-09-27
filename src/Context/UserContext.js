@@ -36,7 +36,20 @@ export const UserProvider = ({ children, userData }) => {
             console.error("Error updating balance on server:", error);
         }
     };
-
+    const resetUserTribe = () => {
+        setUser((prevUser) => ({
+            ...prevUser,
+            tribe: null,
+            tribe_role: null
+        }));
+    }
+    const joinToTribe= (tribeId,role) =>{
+        setUser((prevUser) => ({
+            ...prevUser,
+            tribe: tribeId,
+            tribe_role: role
+        }));
+    }
     const fetchUser = async (telegramId) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/users/join/`, {
@@ -54,7 +67,7 @@ export const UserProvider = ({ children, userData }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, updateUserBalance, fetchUser  }}>
+        <UserContext.Provider value={{ user, setUser, updateUserBalance, fetchUser, resetUserTribe, joinToTribe  }}>
             {children}
         </UserContext.Provider>
     );

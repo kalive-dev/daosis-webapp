@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { TribeContext } from "../Context/TribeContext";
 import { TribeList, TribeItem, TribeImage, TribeIcon, TribeDetails, TribeTitle, TribeSubtitle, Rank } from './TopTribes'
@@ -7,7 +7,13 @@ import { TribeList, TribeItem, TribeImage, TribeIcon, TribeDetails, TribeTitle, 
 import ArrowRightGradient from '../assets/images/arrowright.svg';
 import StrangeIcon from '../assets/images/strangething.svg'
 const StartTribe = () => {
-    const { topTribes  } = useContext(TribeContext);
+    const navigate = useNavigate();
+  const { topTribes,searchTribe  } = useContext(TribeContext);
+  const handleTribeClick = async (tribe2) => {
+    await searchTribe(tribe2.name);
+    navigate("/community");
+  };
+  
 
     return (
         <Container>
@@ -38,7 +44,7 @@ const StartTribe = () => {
             <TribeContainer style={{ marginBottom: "30px" }}>
                 <TribeList>
                 {topTribes.slice(0, 3).map((tribe) => (
-  <TribeItem key={tribe.tribe_id}> {/* tribe.tribe_id використовується як ключ */}
+  <TribeItem key={tribe.tribe_id} onClick={() => handleTribeClick(tribe)}> {/* tribe.tribe_id використовується як ключ */}
     <TribeImage>
       {/* Відображення зображення або плейсхолдера */}
       <img
