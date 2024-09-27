@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../Helpers/Api";
-
 // Створюємо контекст TribeContext
 export const TribeContext = createContext();
 
@@ -98,11 +97,15 @@ export const TribeProvider = ({ children }) => {
       if (response.status === 200) {
         setTribe(response.data.tribe);
         setTribePosition(response.data.position); 
+      } else {
+        setTribe(null)
       }
+      return response;
     } catch (error) {
       console.error("Error fetching tribe:", error);
     } finally {
       setTribeLoading(false);
+      
     }
   };
 
