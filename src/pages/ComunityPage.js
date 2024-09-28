@@ -22,13 +22,13 @@ const CommunityPage = () => {
   const navigate = useNavigate();
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [preloadedQRCode, setPreloadedQRCode] = useState(null);
-  const qrcodevalue = "https://t.me/";
+
   const { tribe, leaveMyTribe, tribeLoading, joinTribe } =
     useContext(TribeContext);
   const { user, joinToTribe, resetUserTribe } = useContext(UserContext);
   const location = useLocation();
   const { tribeId } = location.state || {};
-
+  const qrcodevalue = `https://t.me/Daosis_bot/app?startapp=${user.telegram_id} Let's join to tribe ${tribe.name}`;
   useEffect(() => {
     const preloadQRCode = () => {
       const canvas = document.createElement("canvas");
@@ -87,7 +87,10 @@ const CommunityPage = () => {
     console.log("Save button clicked");
     setPopupVisible(false);
   };
-
+  const handleShareInviteLink = () => {
+    const shareLink = `https://t.me/share/url?url=\n Let's join to tribe ${tribe.name}\n \t https://t.me/Daosis_bot/app?startapp=${user.telegram_id}`;
+    window.open(shareLink, "_blank");
+  };
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -245,7 +248,7 @@ const CommunityPage = () => {
               onSave={handleSave}
               content={
                 <div>
-                  <Button>send</Button>
+                  <Button onClick={handleShareInviteLink}>send</Button>
                   <ButtonOutlined onClick={handleButtonClickQR}>
                     copy link
                   </ButtonOutlined>
