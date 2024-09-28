@@ -26,7 +26,6 @@ import PreLoad from "./pages/LoadingPage";
 import StartTribe from "./pages/StartTribe";
 import SearchTribe from "./pages/SearchTribe";
 import CreatePage from "./pages/Create";
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -127,23 +126,17 @@ function App() {
 }
 function AppWrapper() {
   const [showModal, setShowModal] = useState(false);
-  const manifestUrl = new URL(
-    "/tonconnect/tonconnect-manifest.json",
-    window.location.origin
-  );
 
   return (
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <TribeProvider>
-        <TasksProvider>
-          <RewardsProvider>
-            <Router>
-              <App />
-            </Router>
-          </RewardsProvider>
-        </TasksProvider>
-      </TribeProvider>
-    </TonConnectUIProvider>
+    <TribeProvider>
+      <TasksProvider>
+        <RewardsProvider>
+          <Router>
+            <App />
+          </Router>
+        </RewardsProvider>
+      </TasksProvider>
+    </TribeProvider>
   );
 }
 
