@@ -217,9 +217,9 @@ const CommunityPage = () => {
             </div>
             <LeaderboardSection>
               <div>
-                <p>Lorem ipsum dolor sit amet</p>
+                <p>Start farming to climb the leaderboard ranks</p>
                 <Link to="/">
-                  <LeaderboardButton>btn</LeaderboardButton>
+                  <LeaderboardButton>start</LeaderboardButton>
                 </Link>
               </div>
             </LeaderboardSection>

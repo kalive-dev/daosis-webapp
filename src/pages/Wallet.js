@@ -81,11 +81,11 @@ const Wallet = () => {
                 <div className="left-section">
                   <img src={logo} alt="task icon" />
                   <div>
-                    <h3>main title</h3>
-                    <p>subtitle</p>
+                    <h3>Daosis points</h3>
+                    {/* <p>subtitle</p> */}
                   </div>
                 </div>
-                <button onClick={handleButtonClick}>btn</button>
+                <button onClick={handleButtonClick}>start farming</button>
               </BalanceItem>
             </BalanceContainer>
           ) : (
