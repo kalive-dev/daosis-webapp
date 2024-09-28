@@ -13,7 +13,7 @@ const Friends = () => {
   const [preloadedQRCode, setPreloadedQRCode] = useState(null);
   const { user, setUser } = useContext(UserContext);
 
-  const qrcodevalue = `https://t.me/WeArePrime_Bot/app?startapp=${user.telegram_id}`;
+  const qrcodevalue = `https://t.me/Daosis_bot/app?startapp=${user.telegram_id}`;
 
   useEffect(() => {
     const preloadQRCode = () => {
@@ -85,7 +85,10 @@ const Friends = () => {
   const handleButtonClickQR = () => {
     copyToClipboard(qrcodevalue);
   };
-
+  const handleShareInviteLink = () => {
+    const shareLink = `https://t.me/share/url?url=https://t.me/Daosis_bot/app?startapp=${user.telegram_id}\n`;
+    window.open(shareLink, "_blank");
+  };
   return (
     <Container>
       <ImageWrapper>
@@ -137,7 +140,7 @@ const Friends = () => {
         onSave={handleSave}
         content={
           <div>
-            <Button>send</Button>
+            <Button onClick={handleShareInviteLink}>send</Button>
             <ButtonOutlined onClick={handleButtonClickQR}>
               copy link
             </ButtonOutlined>
