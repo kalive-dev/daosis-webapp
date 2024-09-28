@@ -47,7 +47,7 @@ const Home = ({ telegramId }) => {
       if (!user.tribe) {
         resetTribe();
       }
-      if (user.tribe != tribe.tribe_id) {
+      if (user?.tribe != tribe?.tribe_id) {
         fetchTribe(user.tribe);
       }
     };

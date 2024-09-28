@@ -11,6 +11,7 @@ import CloseButton from "../assets/images/closebutton.svg";
 import { API_BASE_URL } from "../Helpers/Api";
 import { UserContext } from "../Context/UserContext";
 import axios from "axios";
+import bs58 from "bs58";
 const Wallet = () => {
   const [activeTab, setActiveTab] = useState("balances"); // State to track the active tab
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -31,25 +32,39 @@ const Wallet = () => {
   const handleButtonClick = () => {
     setPopupVisible(true);
   };
-
+  const isValidSolanaAddress = (address) => {
+    try {
+      const decoded = bs58.decode(address);
+      return decoded.length === 32 || decoded.length === 44; // Перевірка довжини декодованої адреси
+    } catch (error) {
+      return false; // Якщо декодування не вдалося, адреса не валідна
+    }
+  };
   const handleButtonClickConnectWallet = async () => {
+    if (!isValidSolanaAddress(searchQuery)) {
+      console.error("Invalid Solana wallet address");
+      alert("Please enter a valid Solana wallet address.");
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_BASE_URL}/connect_wallet/`, {
         telegram_id: user.telegram_id,
         wallet: searchQuery,
       });
+
       if (response.status === 201) {
-        console.log("Wallet connection successfully:", response.data);
+        console.log("Wallet connection successful:", response.data);
         setUser((prevUser) => ({
           ...prevUser,
           wallet: searchQuery,
         }));
       }
+      setPopupVisible(false);
     } catch (error) {
-      console.error("Error connection wallet:", error);
+      console.error("Error connecting wallet:", error);
     }
   };
-
   const handleClosePopup = () => {
     setPopupVisible(false);
   };
@@ -65,7 +80,15 @@ const Wallet = () => {
         <h1>Congratulations!</h1>
         {user.wallet ? (
           <>
-            <h2 style={{ fontSize: "2vh", margin: 10, textAlign: "center" }}>
+            <h2
+              style={{
+                fontSize: "2vh",
+                margin: 10,
+                textAlign: "center",
+                wordWrap: "break-word", // Додає перенос слів, якщо вони довгі
+                overflowWrap: "break-word",
+              }}
+            >
               You Connected wallet: {user.wallet}
             </h2>
           </>
