@@ -4,8 +4,10 @@ import { TitleGradient, Title } from "./Home";
 import styled from "styled-components";
 import Popup, { Button } from "../components/Popup";
 import QRCode from "react-qr-code";
+
 import StrangeThing from "../assets/images/strangething.svg";
 import { UserContext } from "../Context/UserContext";
+
 const Friends = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [preloadedQRCode, setPreloadedQRCode] = useState(null);
@@ -25,7 +27,6 @@ const Friends = () => {
       const qrCode = <QRCode value={qrcodevalue} size={256} />;
       ReactDOM.render(qrCode, qrCodeElement);
 
-      // Wait for QR code to render
       setTimeout(() => {
         const qrCodeImage = qrCodeElement.querySelector("svg");
         if (qrCodeImage) {
@@ -96,22 +97,22 @@ const Friends = () => {
         <Step>
           <Dot />
           <div>
-            <h3>Invite your telegram friends</h3>
-            {/* <p>subtitle</p> */}
+            <h3>Share your invitation link</h3>
+            <p>Get a 🎟 play pass for each fren</p>
           </div>
         </Step>
         <Step>
           <Dot />
           <div>
-            <h3>Get them using the Daosis bot</h3>
-            {/* <p></p> */}
+            <h3>Your friends join Daosis</h3>
+            <p>And start farming points</p>
           </div>
         </Step>
         <Step>
           <Dot />
           <div>
-            <h3>Earn rewards!</h3>
-            {/* <p>subtitle</p> */}
+            <h3>Score 10% from buddies</h3>
+            <p>Plus an extra 2.5% from their referrals</p>
           </div>
         </Step>
       </HowItWorks>
@@ -147,6 +148,7 @@ const Friends = () => {
   );
 };
 
+// Styled Components remain the same
 const ButtonOutlined = styled(Button)`
   background: linear-gradient(#000, #000) padding-box,
     linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%) border-box;
@@ -210,7 +212,8 @@ const Dot = styled.div`
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height: 60px;
+
+    height: 75px;
     background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   }
 `;
@@ -218,7 +221,6 @@ const Dot = styled.div`
 const Step = styled.div`
   display: flex;
   align-items: center;
-  //margin-bottom: 20px;
   position: relative;
 
   &:last-child ${Dot}::after {
