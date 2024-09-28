@@ -1,34 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from "react";
 import ReactDOM from "react-dom";
-import { TitleGradient, Title } from './Home';
-import styled from 'styled-components';
+import { TitleGradient, Title } from "./Home";
+import styled from "styled-components";
 import Popup, { Button } from "../components/Popup";
 import QRCode from "react-qr-code";
 
-import StrangeThing from '../assets/images/strangething.svg';
+import StrangeThing from "../assets/images/strangething.svg";
+import { UserContext } from "../Context/UserContext";
 
 const Friends = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [preloadedQRCode, setPreloadedQRCode] = useState(null);
-  const qrcodevalue = "https://t.me/";
+  const { user, setUser } = useContext(UserContext);
+
+  const qrcodevalue = `https://t.me/Daosis_bot/app?startapp=${user.telegram_id}`;
 
   useEffect(() => {
     const preloadQRCode = () => {
-      const canvas = document.createElement('canvas');
-      const qrCodeElement = document.createElement('div');
-      qrCodeElement.style.width = '256px';
-      qrCodeElement.style.height = '256px';
+      const canvas = document.createElement("canvas");
+      const qrCodeElement = document.createElement("div");
+      qrCodeElement.style.width = "256px";
+      qrCodeElement.style.height = "256px";
+
       document.body.appendChild(qrCodeElement);
 
       const qrCode = <QRCode value={qrcodevalue} size={256} />;
       ReactDOM.render(qrCode, qrCodeElement);
 
       setTimeout(() => {
-        const qrCodeImage = qrCodeElement.querySelector('svg');
+        const qrCodeImage = qrCodeElement.querySelector("svg");
         if (qrCodeImage) {
           const svg = qrCodeImage.outerHTML;
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
           const img = new Image();
           img.onload = () => {
             canvas.width = img.width;
@@ -37,7 +41,7 @@ const Friends = () => {
             setPreloadedQRCode(canvas.toDataURL());
             document.body.removeChild(qrCodeElement);
           };
-          img.src = 'data:image/svg+xml;base64,' + btoa(svg);
+          img.src = "data:image/svg+xml;base64," + btoa(svg);
         }
       }, 100);
     };
@@ -50,9 +54,9 @@ const Friends = () => {
   }, [qrcodevalue]);
 
   useEffect(() => {
-    document.body.style.overflow = isPopupVisible ? 'hidden' : '';
+    document.body.style.overflow = isPopupVisible ? "hidden" : "";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isPopupVisible]);
 
@@ -72,16 +76,19 @@ const Friends = () => {
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      console.log('Text copied to clipboard:', text);
+      console.log("Text copied to clipboard:", text);
     } catch (err) {
-      console.error('Failed to copy text:', err);
+      console.error("Failed to copy text:", err);
     }
   };
 
   const handleButtonClickQR = () => {
     copyToClipboard(qrcodevalue);
   };
-
+  const handleShareInviteLink = () => {
+    const shareLink = `https://t.me/share/url?url=https://t.me/Daosis_bot/app?startapp=${user.telegram_id}\n`;
+    window.open(shareLink, "_blank");
+  };
   return (
     <Container>
       <ImageWrapper>
@@ -119,7 +126,11 @@ const Friends = () => {
         icon={
           <QRCodeContainer>
             {preloadedQRCode ? (
-              <img src={preloadedQRCode} alt="QR Code" style={{ width: '100%' }} />
+              <img
+                src={preloadedQRCode}
+                alt="QR Code"
+                style={{ width: "100%" }}
+              />
             ) : (
               <QRCode value={qrcodevalue} size={256} />
             )}
@@ -129,8 +140,10 @@ const Friends = () => {
         onSave={handleSave}
         content={
           <div>
-            <Button>send</Button>
-            <ButtonOutlined onClick={handleButtonClickQR}>copy link</ButtonOutlined>
+            <Button onClick={handleShareInviteLink}>send</Button>
+            <ButtonOutlined onClick={handleButtonClickQR}>
+              copy link
+            </ButtonOutlined>
           </div>
         }
       />
@@ -140,9 +153,8 @@ const Friends = () => {
 
 // Styled Components remain the same
 const ButtonOutlined = styled(Button)`
-  background: 
-      linear-gradient(#000, #000) padding-box,
-      linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%) border-box;
+  background: linear-gradient(#000, #000) padding-box,
+    linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%) border-box;
   color: #ffffff;
   border: 3px solid transparent;
   border-radius: 40px;
@@ -191,7 +203,7 @@ const HowItWorks = styled.div`
 const Dot = styled.div`
   width: 10px;
   height: 10px;
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   border-radius: 50%;
   margin-right: 15px;
   position: relative;
@@ -203,8 +215,9 @@ const Dot = styled.div`
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
-    height:75px;
-    background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+
+    height: 75px;
+    background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   }
 `;
 
@@ -236,7 +249,7 @@ const Step = styled.div`
 `;
 
 const InviteButton = styled.button`
-  background: linear-gradient(90deg, #2EEB9B 0%, #24B3EF 100%);
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
   width: 343px;
   color: #fff;
   padding: 12px 16px;
