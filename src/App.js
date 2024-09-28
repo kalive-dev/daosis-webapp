@@ -21,6 +21,7 @@ import { UserProvider } from "./Context/UserContext";
 import { RewardsProvider } from "./Context/RewardsContext";
 import { TasksProvider } from "./Context/TasksContext";
 import { TribeProvider } from "./Context/TribeContext";
+import { FrensProvider } from "./Context/FrensContext";
 import { API_BASE_URL } from "./Helpers/Api";
 import PreLoad from "./pages/LoadingPage";
 import StartTribe from "./pages/StartTribe";
@@ -131,9 +132,11 @@ function AppWrapper() {
     <TribeProvider>
       <TasksProvider>
         <RewardsProvider>
-          <Router>
-            <App />
-          </Router>
+          <FrensProvider>
+            <Router>
+              <App />
+            </Router>
+          </FrensProvider>
         </RewardsProvider>
       </TasksProvider>
     </TribeProvider>

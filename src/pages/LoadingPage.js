@@ -4,6 +4,7 @@ import { UserContext } from "../Context/UserContext";
 import { RewardsContext } from "../Context/RewardsContext";
 import { TasksContext } from "../Context/TasksContext";
 import { TribeContext } from "../Context/TribeContext";
+import { FrensContext } from "../Context/FrensContext";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../Helpers/Api";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ const PreLoad = ({ telegramId }) => {
   const { user, setUser, resetUserTribe } = useContext(UserContext);
   const { setRewards } = useContext(RewardsContext);
   const { setTasks } = useContext(TasksContext);
+  const { fetchFrens } = useContext(FrensContext);
   const { fetchTribe, fetchTopTribes, leaveMyTribe } = useContext(TribeContext);
   const [rewardData, setRewardData] = useState(null);
   const [showRewardPage, setShowRewardPage] = useState(false);
@@ -50,6 +52,7 @@ const PreLoad = ({ telegramId }) => {
   }, [telegramId, navigate]);
   const fetchAllData = async (telegramId) => {
     fetchTopTribes();
+    fetchFrens(telegramId);
     await fetchUser(telegramId);
     await fetchUserRewards(telegramId);
     await fetchTasks(telegramId);

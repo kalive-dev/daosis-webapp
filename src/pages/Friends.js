@@ -4,7 +4,7 @@ import { TitleGradient, Title } from "./Home";
 import styled from "styled-components";
 import Popup, { Button } from "../components/Popup";
 import QRCode from "react-qr-code";
-
+import { FrensContext } from "../Context/FrensContext";
 import StrangeThing from "../assets/images/strangething.svg";
 import { UserContext } from "../Context/UserContext";
 
@@ -12,7 +12,7 @@ const Friends = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [preloadedQRCode, setPreloadedQRCode] = useState(null);
   const { user, setUser } = useContext(UserContext);
-
+  const { fetchFrens, setFrens, frens } = useContext(FrensContext);
   const qrcodevalue = `https://t.me/Daosis_bot/app?startapp=${user.telegram_id}`;
 
   useEffect(() => {
@@ -95,30 +95,58 @@ const Friends = () => {
         <img src={StrangeThing} alt="icon" />
       </ImageWrapper>
       <TitleGradient>Invite your friends!</TitleGradient>
-      <HowItWorks>
-        <HowItWorksTitle>How it works</HowItWorksTitle>
-        <Step>
-          <Dot />
-          <div>
-            <h3>Share your invitation link</h3>
-            <p>Get a 🎟 play pass for each fren</p>
-          </div>
-        </Step>
-        <Step>
-          <Dot />
-          <div>
-            <h3>Your friends join Daosis</h3>
-            <p>And start farming points</p>
-          </div>
-        </Step>
-        <Step>
-          <Dot />
-          <div>
-            <h3>Score 10% from buddies</h3>
-            <p>Plus an extra 2.5% from their referrals</p>
-          </div>
-        </Step>
-      </HowItWorks>
+      {frens?.total_friends_count > 0 ? (
+        <div style={{ maxHeight: 280, overflowY: "auto", marginBottom: 10 }}>
+          {frens?.friends_stats.map((friend) => (
+            <CommunityBanner key={friend.telegram_id}>
+              <div className="left-section">
+                <img
+                  src={require("../assets/images/white-icon.png")}
+                  alt="community icon"
+                />
+                <div>
+                  <Title>
+                    {friend.username || `Friend #${friend.telegram_id}`}
+                  </Title>
+                  <Subtitle>
+                    Invited on:{" "}
+                    {new Date(friend.date_added).toLocaleDateString()}
+                  </Subtitle>
+                </div>
+              </div>
+              <button>+{friend.balance_increment}</button>
+            </CommunityBanner>
+          ))}
+        </div>
+      ) : (
+        <>
+          <HowItWorks>
+            <HowItWorksTitle>How it works</HowItWorksTitle>
+            <Step>
+              <Dot />
+              <div>
+                <h3>Share your invitation link</h3>
+                <p>Get a 🎟 play pass for each fren</p>
+              </div>
+            </Step>
+            <Step>
+              <Dot />
+              <div>
+                <h3>Your friends join Daosis</h3>
+                <p>And start farming points</p>
+              </div>
+            </Step>
+            <Step>
+              <Dot />
+              <div>
+                <h3>Score 10% from buddies</h3>
+                <p>Plus an extra 2.5% from their referrals</p>
+              </div>
+            </Step>
+          </HowItWorks>
+        </>
+      )}
+
       <InviteButton onClick={handleButtonClick}>invite a friend</InviteButton>
       <Popup
         isVisible={isPopupVisible}
@@ -261,5 +289,54 @@ const InviteButton = styled.button`
   margin: 0 auto;
   font-size: 20px;
 `;
+const CommunityBanner = styled.div`
+  background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
+  color: #000;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 
+  .left-section {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  h2 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+  }
+`;
+
+const Subtitle = styled.h2`
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: rgba(90, 90, 90, 1);
+  font-weight: 400;
+`;
 export default Friends;

@@ -42,8 +42,8 @@ const Wallet = () => {
   };
   const handleButtonClickConnectWallet = async () => {
     if (!isValidSolanaAddress(searchQuery)) {
-      console.error("Invalid Solana wallet address");
-      alert("Please enter a valid Solana wallet address.");
+      console.error("Invalid ETH EVM wallet address");
+      alert("Please enter a valid ETH EVM wallet address.");
       return;
     }
 
