@@ -17,7 +17,7 @@ const Home = ({ telegramId }) => {
   const { user, fetchUser, updateUserBalance } = useContext(UserContext);
   const { rewards, fetchUserRewards } = useContext(RewardsContext);
   const { tasks, fetchTasks } = useContext(TasksContext);
-  const { tribe, resetTribe, getTribe } = useContext(TribeContext);
+  const { tribe, resetTribe, fetchTribe } = useContext(TribeContext);
   const [isLoading, setIsLoading] = useState(false);
   const userFetchedRef = useRef(false);
   const rewardsFetchedRef = useRef(false);
@@ -46,6 +46,9 @@ const Home = ({ telegramId }) => {
       }
       if (!user.tribe) {
         resetTribe();
+      }
+      if (user.tribe != tribe.tribe_id) {
+        fetchTribe(user.tribe);
       }
     };
 

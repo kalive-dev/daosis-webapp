@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import backgroundImage from "../assets/images/bg.jpg"; // Assuming the background image exists
 import logo from "../assets/images/main-icon.svg";
@@ -8,11 +8,19 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import IconOverlay from "../assets/images/icon-cash.svg";
 import Popup, { Button } from "../components/Popup";
 import CloseButton from "../assets/images/closebutton.svg";
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
+import { API_BASE_URL } from "../Helpers/Api";
+import { UserContext } from "../Context/UserContext";
+import axios from "axios";
 const Wallet = () => {
   const [activeTab, setActiveTab] = useState("balances"); // State to track the active tab
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const rawAddress = useTonAddress();
+  const { user, setUser } = useContext(UserContext);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleWalletChange = (e) => {
+    setSearchQuery(e.target.value); // Оновлення пошукового запиту
+  };
+
   useEffect(() => {
     document.body.style.overflow = isPopupVisible ? "hidden" : "";
     return () => {
@@ -22,6 +30,24 @@ const Wallet = () => {
 
   const handleButtonClick = () => {
     setPopupVisible(true);
+  };
+
+  const handleButtonClickConnectWallet = async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/connect_wallet/`, {
+        telegram_id: user.telegram_id,
+        wallet: searchQuery,
+      });
+      if (response.status === 201) {
+        console.log("Wallet connection successfully:", response.data);
+        setUser((prevUser) => ({
+          ...prevUser,
+          wallet: searchQuery,
+        }));
+      }
+    } catch (error) {
+      console.error("Error connection wallet:", error);
+    }
   };
 
   const handleClosePopup = () => {
@@ -37,7 +63,18 @@ const Wallet = () => {
     <Container>
       <Header>
         <h1>Congratulations!</h1>
-        <TonConnectButton />
+        {user.wallet ? (
+          <>
+            <h2 style={{ fontSize: "2vh", margin: 10, textAlign: "center" }}>
+              You Connected wallet: {user.wallet}
+            </h2>
+          </>
+        ) : (
+          <></>
+        )}
+        <button onClick={handleButtonClick}>
+          {user.wallet ? "Edit wallet" : "Connect Wallet"}
+        </button>
       </Header>
 
       <MainContent>
@@ -108,6 +145,8 @@ const Wallet = () => {
             <input
               type="text"
               placeholder="Wallet Address"
+              value={searchQuery}
+              onChange={handleWalletChange}
               style={{
                 border: "2px solid rgba(220, 220, 220, 1)",
                 borderRadius: "100px",
@@ -120,7 +159,9 @@ const Wallet = () => {
                 outline: "none",
               }}
             />
-            <Button>Connect Wallet</Button>
+            <Button onClick={handleButtonClickConnectWallet}>
+              {user.wallet ? "Edit wallet" : "Connect Wallet"}
+            </Button>
           </div>
         }
       />

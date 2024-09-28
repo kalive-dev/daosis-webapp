@@ -102,8 +102,10 @@ const CommunityPage = () => {
   };
 
   const handleButtonClickJoin = () => {
-    joinTribe(user.telegram_id, tribe.tribe_id);
-    joinToTribe(tribe.tribe_id, "member");
+    if (!user.tribe) {
+      joinTribe(user.telegram_id, tribe.tribe_id);
+      joinToTribe(tribe.tribe_id, "member");
+    }
   };
 
   const handleButtonClickLeave = () => {
