@@ -130,25 +130,32 @@ const Home = ({ telegramId }) => {
 
   return (
     <Container>
-      <CommunityBanner>
-        <div className="left-section">
-          <img
-            src={
-              tribe?.photo
-                ? tribe.photo
-                : require("../assets/images/white-icon.png")
-            }
-            alt="community icon"
-          />
-          <div>
-            <Title>{tribe ? tribe.name : "Daosis"}</Title>
-            <Subtitle>
-              {tribe ? tribe.tribe_collected : "Daosis Community"}
-            </Subtitle>
+
+      <HeaderContainer>
+        <PointsFarmed>
+          <span>{user.balance}</span> points farmed!
+        </PointsFarmed>
+        <CommunityBanner>
+          <div className="left-section">
+            <img
+              src={
+                tribe?.photo
+                  ? tribe.photo
+                  : require("../assets/images/white-icon.png")
+              }
+              alt="community icon"
+            />
+            <div>
+              <Title>{tribe ? tribe.name : "Daosis"}</Title>
+              <Subtitle>
+                {tribe ? tribe.tribe_collected : "Daosis Community"}
+              </Subtitle>
+            </div>
           </div>
-        </div>
-        <button onClick={handleGoToTribes}>open</button>
-      </CommunityBanner>
+          <button onClick={handleGoToTribes}>open</button>
+        </CommunityBanner>
+      </HeaderContainer>
+
 
       <TitleGradient>Daily tasks</TitleGradient>
       <TabList>
@@ -228,6 +235,21 @@ const Home = ({ telegramId }) => {
     </Container>
   );
 };
+const HeaderContainer = styled.div`
+margin-top: 95px;
+margin-bottom: 20px;
+`
+const PointsFarmed = styled.div`
+  font-size: 2vh;
+  margin-bottom:10px;
+  span{
+    font-size: 32px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #2eeb9b 0%, #24b3ef 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+`
 const Container = styled.div`
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -249,8 +271,6 @@ const CommunityBanner = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  margin-top: 95px;
-  margin-bottom: 20px;
 
   .left-section {
     display: flex;
