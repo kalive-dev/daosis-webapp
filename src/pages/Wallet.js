@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import backgroundImage from "../assets/images/bg.jpg"; // Assuming the background image exists
 import logo from "../assets/images/main-icon.svg";
@@ -130,11 +131,17 @@ const Wallet = () => {
               <FixedItem>
                 <div className="left-section">
                   <img width={"80px"} src={doubedIcon} alt="icon 1" />
-                  Earn more in Drop game, Tasks and Quests.
+                  Earn more in tasks & quests
                 </div>
-                <button>
-                  <ArrowForwardIosIcon fontSize="small" />
-                </button>
+                <Link to="/home" state={{ activeTabpros: "unfulfilled" }}>
+                  <button>
+                    <ArrowForwardIosIcon fontSize="small" />
+                  </button>
+                </Link>
+
+
+
+
               </FixedItem>
 
               <BalanceItem>
@@ -145,7 +152,10 @@ const Wallet = () => {
                     {/* <p>subtitle</p> */}
                   </div>
                 </div>
+
                 <button onClick={handleButtonClick}>start farming</button>
+
+
               </BalanceItem>
             </BalanceContainer>
           ) : (
@@ -167,7 +177,7 @@ const Wallet = () => {
           <div>
             <input
               type="text"
-              placeholder="Wallet Address"
+              placeholder="Oasis Sapphire wallet"
               value={searchQuery}
               onChange={handleWalletChange}
               style={{

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import logo from "../assets/images/main-icon.svg";
 import backgroundImage from "../assets/images/sqbg.png";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import "../Styles/mainStyles.css";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,15 @@ import { API_BASE_URL } from "../Helpers/Api";
 import axios from "axios";
 
 const Home = ({ telegramId }) => {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.state?.activeTabpros) {
+      setActiveTab(location.state.activeTabpros);
+    }
+  }, [location.state?.activeTabpros]);
+  const [activeTab, setActiveTab] = useState(location.state?.activeTabpros || "new");
+
+
   const navigate = useNavigate();
   const { user, fetchUser, updateUserBalance } = useContext(UserContext);
   const { rewards, fetchUserRewards } = useContext(RewardsContext);
@@ -23,12 +33,12 @@ const Home = ({ telegramId }) => {
   const rewardsFetchedRef = useRef(false);
   const tasksFetchedRef = useRef(false);
   const { completeTask } = useContext(TasksContext);
-  const [activeTab, setActiveTab] = useState("new"); // State to track the active tab
+
+  // State to track the active tab
   const [isChecked, setIsChecked] = useState(false); // Track if the task was checked
   const [checkedTasks, setCheckedTasks] = useState({}); // Track checked state for each task
 
   const [timerExpired, setTimerExpired] = useState(false);
-
   useEffect(() => {
     const loadData = async () => {
       if (!userFetchedRef.current) {
@@ -162,26 +172,26 @@ const Home = ({ telegramId }) => {
       <TaskList>
         {activeTab === "new"
           ? tasks.slice(-3).map(
-              (task, index) =>
-                !task.completed && (
-                  <TaskItem key={index}>
-                    <div className="left-section">
-                      <img src={logo} alt="task icon" />
-                      <div>
-                        <h3>{task.title}</h3>
-                        <p>{task.reward}</p>
-                      </div>
+            (task, index) =>
+              !task.completed && (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>{task.title}</h3>
+                      <p>{task.reward}</p>
                     </div>
+                  </div>
 
-                    {/* Button appears only for tasks that are not completed */}
-                    <button onClick={() => handleButtonClick(task, index)}>
-                      {checkedTasks[index] ? "Check" : "START"}
-                    </button>
-                  </TaskItem>
-                )
-            )
+                  {/* Button appears only for tasks that are not completed */}
+                  <button onClick={() => handleButtonClick(task, index)}>
+                    {checkedTasks[index] ? "Check" : "START"}
+                  </button>
+                </TaskItem>
+              )
+          )
           : activeTab === "completed"
-          ? tasks.map(
+            ? tasks.map(
               (task, index) =>
                 task.completed && (
                   <TaskItem key={index}>
@@ -196,7 +206,7 @@ const Home = ({ telegramId }) => {
                   </TaskItem>
                 )
             )
-          : tasks.map(
+            : tasks.map(
               (task, index) =>
                 !task.completed && (
                   <TaskItem key={index}>
