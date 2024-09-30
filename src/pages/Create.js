@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { TribeContext } from "../Context/TribeContext";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +12,17 @@ const CreateTribe = () => {
   const navigate = useNavigate();
   const { createTribe } = useContext(TribeContext);
   const { user, setUser } = useContext(UserContext);
+
   const handleCopy = () => {
     const textToCopy = "@daosis_bot";
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+        setTimeout(() => setCopied(false), 3000); // Скидання після 2 секунд
       })
       .catch((err) => {
-        console.error("Failed to copy text: ", err);
+        console.error("Не вдалося скопіювати текст: ", err);
       });
   };
 
@@ -36,7 +37,7 @@ const CreateTribe = () => {
       }));
 
       navigate("/community");
-    } else alert("Error!");
+    } else alert("Помилка!");
   };
 
   return (
@@ -51,6 +52,7 @@ const CreateTribe = () => {
           </div>
           <CopyWrapper onClick={handleCopy}>
             <ContentCopyIcon />
+            {copied && <FlyOutText>copied</FlyOutText>}
           </CopyWrapper>
         </AddToChannel>
 
@@ -77,14 +79,31 @@ const CreateTribe = () => {
     </Container>
   );
 };
-const Section = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  width: 90vw;
+
+// Анімація для тексту, що вилітає догори і зникає
+const flyUp = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px); /* Зміщуємо текст догори */
+    opacity: 0;
+  }
 `;
-// Styles
+
+const FlyOutText = styled.span`
+
+  color: #4caf50;
+  font-size: 12px;
+  position: absolute; /* Текст буде розміщений абсолютно */
+  top: -20px; /* Задайте розташування відносно батьківського контейнера */
+  left: -10px;
+  right: 0;
+  text-align: center;
+  animation: ${flyUp} 3s forwards; /* Анімація триває 2 секунди */
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,6 +113,14 @@ const Container = styled.div`
   background-color: #000000;
   color: #ffffff;
   height: 100vh;
+`;
+
+const Section = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
 `;
 
 const Title = styled.h1`
@@ -111,7 +138,7 @@ const AddToChannel = styled.div`
   max-width: 500px;
   padding: 10px;
   margin-top: 30px;
-  margin-bottom: 60px; // ADD THIS TO CREATE SPACE BETWEEN SECTIONS
+  margin-bottom: 60px;
 
   p {
     color: #999999;
@@ -122,7 +149,7 @@ const CopyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  position: relative; /* Батьківський контейнер для позиціонування FlyOutText */
   cursor: pointer;
 `;
 
