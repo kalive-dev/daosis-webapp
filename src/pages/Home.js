@@ -177,43 +177,9 @@ const Home = ({ telegramId }) => {
       </TabList>
 
       <TaskList>
-        {activeTab === "new"
-          ? tasks.slice(-3).map(
-            (task, index) =>
-              !task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
-                    </div>
-                  </div>
-
-                  {/* Button appears only for tasks that are not completed */}
-                  <button onClick={() => handleButtonClick(task, index)}>
-                    {checkedTasks[index] ? "Check" : "START"}
-                  </button>
-                </TaskItem>
-              )
-          )
-          : activeTab === "completed"
-            ? tasks.map(
-              (task, index) =>
-                task.completed && (
-                  <TaskItem key={index}>
-                    <div className="left-section">
-                      <img src={logo} alt="task icon" />
-                      <div>
-                        <h3>{task.title}</h3>
-                        <p>{task.reward}</p>
-                      </div>
-                    </div>
-                    {/* No button for completed tasks */}
-                  </TaskItem>
-                )
-            )
-            : tasks.map(
+        {activeTab === "new" ? (
+          tasks.filter(task => !task.completed).length > 0 ? (
+            tasks.slice(-3).map(
               (task, index) =>
                 !task.completed && (
                   <TaskItem key={index}>
@@ -230,8 +196,47 @@ const Home = ({ telegramId }) => {
                     </button>
                   </TaskItem>
                 )
-            )}
+            )
+          ) : (
+            <p>Stay tuned, next task coming</p> // Display this message if no new tasks
+          )
+        ) : activeTab === "completed" ? (
+          tasks.map(
+            (task, index) =>
+              task.completed && (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>{task.title}</h3>
+                      <p>{task.reward}</p>
+                    </div>
+                  </div>
+                </TaskItem>
+              )
+          )
+        ) : (
+          tasks.map(
+            (task, index) =>
+              !task.completed && (
+                <TaskItem key={index}>
+                  <div className="left-section">
+                    <img src={logo} alt="task icon" />
+                    <div>
+                      <h3>{task.title}</h3>
+                      <p>{task.reward}</p>
+                    </div>
+                  </div>
+
+                  <button onClick={() => handleButtonClick(task, index)}>
+                    {checkedTasks[index] ? "Check" : "START"}
+                  </button>
+                </TaskItem>
+              )
+          )
+        )}
       </TaskList>
+
     </Container>
   );
 };
