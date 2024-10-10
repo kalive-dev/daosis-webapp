@@ -178,7 +178,7 @@ const Home = ({ telegramId }) => {
 
       <TaskList>
         {activeTab === "new" ? (
-          tasks.filter(task => !task.completed).length > 0 ? (
+          tasks.filter((task) => !task.completed).length > 0 ? (
             tasks.slice(-3).map(
               (task, index) =>
                 !task.completed && (
@@ -201,41 +201,50 @@ const Home = ({ telegramId }) => {
             <p>Stay tuned, next task coming</p> // Display this message if no new tasks
           )
         ) : activeTab === "completed" ? (
-          tasks.map(
-            (task, index) =>
-              task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
+          tasks.filter((task) => task.completed).length > 0 ? (
+            tasks.map(
+              (task, index) =>
+                task.completed && (
+                  <TaskItem key={index}>
+                    <div className="left-section">
+                      <img src={logo} alt="task icon" />
+                      <div>
+                        <h3>{task.title}</h3>
+                        <p>{task.reward}</p>
+                      </div>
                     </div>
-                  </div>
-                </TaskItem>
-              )
+                  </TaskItem>
+                )
+            )
+          ) : (
+            <p>There is no completed Daosis tasks</p> // Display if no completed tasks
           )
         ) : (
-          tasks.map(
-            (task, index) =>
-              !task.completed && (
-                <TaskItem key={index}>
-                  <div className="left-section">
-                    <img src={logo} alt="task icon" />
-                    <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.reward}</p>
+          tasks.filter((task) => !task.completed).length === 0 ? (
+            <p>You completed every active Daosis tasks</p> // Display if all tasks are completed in unfulfilled
+          ) : (
+            tasks.map(
+              (task, index) =>
+                !task.completed && (
+                  <TaskItem key={index}>
+                    <div className="left-section">
+                      <img src={logo} alt="task icon" />
+                      <div>
+                        <h3>{task.title}</h3>
+                        <p>{task.reward}</p>
+                      </div>
                     </div>
-                  </div>
 
-                  <button onClick={() => handleButtonClick(task, index)}>
-                    {checkedTasks[index] ? "Check" : "START"}
-                  </button>
-                </TaskItem>
-              )
+                    <button onClick={() => handleButtonClick(task, index)}>
+                      {checkedTasks[index] ? "Check" : "START"}
+                    </button>
+                  </TaskItem>
+                )
+            )
           )
         )}
       </TaskList>
+
 
     </Container>
   );
